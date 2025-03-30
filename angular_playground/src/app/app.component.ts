@@ -2,6 +2,9 @@ import { Component,OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HistoryComponent } from './history/history.component';
+import { HeaderComponent } from './header/header.component';
+
 interface Quote {
   provider: string;
   providerIcon: string;
@@ -12,7 +15,7 @@ interface Quote {
   selected: boolean;
 }@Component({
   selector: 'app-root',
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule,HistoryComponent,HeaderComponent ,ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
