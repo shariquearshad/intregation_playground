@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { SignalService } from '../../services/signal.service';
 
 @Component({
   selector: 'app-header',
@@ -7,5 +8,15 @@ import { Component } from '@angular/core';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+ 
+  @Output() openWalletSelector=new EventEmitter<string>()
+  constructor(
+    private signalService:SignalService
+  ){}
+  updateWalletPopup(){
+    console.log("triggere")
+    this.openWalletSelector.emit('walletSelector')
+  }
+
 
 }

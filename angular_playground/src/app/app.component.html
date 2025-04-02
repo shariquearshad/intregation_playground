@@ -1,5 +1,5 @@
 <div class="min-h-screen bg-gray-900 text-white">
- <app-header></app-header>
+ <app-header (openWalletSelector)="openModal($event)"></app-header>
 
   <main class="container mx-auto px-4 py-8">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -17,4 +17,12 @@
     
     <app-history></app-history>
   </main>
+  <app-modal [isOpen]="isModalOpen" [activeModal]="activeModal" (isOpenChange)="isModalOpen = $event">
+    
+    
+   
+  </app-modal>
+  
+    
+  
 </div>
