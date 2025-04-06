@@ -11,6 +11,7 @@ import { HelperService } from '../services/helper.service';
 import { WalletselectComponent } from './walletselect/walletselect.component';
 import { SignalService } from '../services/signal.service';
 import { ModalComponent } from './modal/modal.component';
+import _ from 'lodash'
 
 
 @Component({
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit  {
   loading:boolean = true;
   combination:any;
   activeModal="walletSelect"
+  quotation:any;
   constructor(
     private signalService:SignalService,
     private api:ApiService,
@@ -57,15 +59,24 @@ export class AppComponent implements OnInit  {
 
   ngOnInit() {
 
-    this.simulatePriceUpdates();
+   
+    this.helper.currentCombination.subscribe((val:any)=>{
+      console.log("sub",val)
+      if(!_.isEmpty(val)){
+        this.combination=val;
+        this.getQuotation()
+      }
+      
+    })
     this.getConfig().catch((err:any)=>{
       console.log(err);
       this.loading=false}) 
   }
   updateCombination(combination:any){
     console.log(combination);
+    this.quotation();
   }
-  openModal(activeModal:string) {
+  openModal(activeModal:any) {
     this.activeModal=activeModal;
     this.isModalOpen = true;
   }
@@ -77,17 +88,11 @@ export class AppComponent implements OnInit  {
     this.helper.allConfig=configs;
     this.combination=this.helper.setDefaultCoin(coins);
     console.log(this.combination);
+    let val=await this.getQuotation()
+    console.log(val);
     this.loading=false;
     console.log(configs);
-    console.log(coins)
-    // this.api.getConfigs().then((res:any)=>{
-    //   console.log(res);
-    //   this.helper.allConfig=res;
-    //   console.log(this.helper.allConfig)
-    //   this.loading=false;
-
-    // })
-    
+    console.log(coins);
   }
 
 
@@ -109,16 +114,11 @@ export class AppComponent implements OnInit  {
     // }
   }
 
-  private simulatePriceUpdates() {
-    // setInterval(() => {
-    //   this.currentPrice += (Math.random() - 0.5) * 100;
-    //   this.currentPrice = Math.max(this.currentPrice, 0);
-      
-    //   this.quotes.forEach(quote => {
-    //     quote.rate = this.currentPrice + (Math.random() - 0.5) * 10;
-    //     quote.expectedOutput = quote.rate - (Math.random() * 50);
-    //   });
-    // }, 3000);
+  private async getQuotation() {
+    const{sourceNetwork,destinationNetwork,sourceToken,destinationToken,amount}=this.combination
+    this.quotation=await this.api.getQuotes(sourceToken,sourceNetwork,destinationToken,destinationNetwork,amount)
+    console.log(this.quotation)
+    return this.quotation;
   }
 }
 

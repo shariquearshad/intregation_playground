@@ -2,16 +2,22 @@
     <div class="space-y-4">
      
       <div class="bg-gray-700 h-20 rounded-lg flex">
-        <img class=" relative h-[50px] top-[13px] left-4" [src]="combination.sourceNetwork.logo"/>
-        <img class="relative h-[20px] top-[50px] right-[-4px]" [src]="combination.sourceToken.icon_url"/>
+        <div class=" flex" (click)="openPopup('fromTokenSelector')">
+          <img class=" rounded-full relative h-[50px] top-[13px] left-4" [src]="combination.sourceNetwork.logo"/>
+          <img class="relative h-[20px] top-[50px] right-[-4px]" [src]="combination.sourceToken.icon_url"/>
+        </div>
+        
         <label class="block text-sm mb-2"> </label>
 
         <input [value]="combination.amount" type="number"  class="w-full  p-3   outline-none">
       </div>
       <div class="bg-gray-700 h-20 rounded-lg flex">
-        <label class="block text-sm mb-2"></label>
-        <img class=" relative h-[50px] top-[13px] left-4" [src]="combination.destinationNetwork.logo"/>
+        <div class="flex" (click)="openPopup('toTokenSelector')">
+          <img class=" rounded-full relative h-[50px] top-[13px] left-4" [src]="combination.destinationNetwork.logo"/>
         <img class="relative h-[20px] top-[50px] right-[-4px]" [src]="combination.destinationToken.icon_url"/>
+        </div>
+        <label class="block text-sm mb-2"></label>
+        
         
           <input type="number" class="w-full  p-3 outline-none">
       

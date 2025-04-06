@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 @Component({
   selector: 'app-quotation',
   imports: [CommonModule],
@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
   styleUrl: './quotation.component.scss'
 })
 export class QuotationComponent {
+  @Input() quotation:any
   quotes= [
     {
       provider: "1inch",

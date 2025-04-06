@@ -6,6 +6,13 @@ import {  BehaviorSubject, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class HelperService {
+  activeCombination:any={
+    sourceToken:{},
+    sourceNetwork:{},
+    destinationToken:{},
+    destinationNetwork:{},
+    amount:100
+  }
  
   public getTransactionHashSubject = new Subject();
   activeWalletService:any;
@@ -33,10 +40,14 @@ export class HelperService {
       destinationNetwork:n,
       amount:100
     }
+    this.activeCombination=combination
    return combination;
   }
   getChainId(){
 
+  }
+  updateCombination(com:any){
+    this.selectCombination.next(com);
   }
   public newTransactionHash(Obj:any){
     this.getTransactionHashSubject.next(Obj);
@@ -48,6 +59,10 @@ export class HelperService {
       return;
     }
 
+  }
+  public RegexCheck(regex:string,address:string){
+    let regCheck:RegExp = new RegExp(regex);
+    return regCheck.test(address)
   }
   public changeCurrentNetwork(net:any){
     if( _.toLower(this.getActiveWalletChainId())!==_.toLower(net.chainId)){

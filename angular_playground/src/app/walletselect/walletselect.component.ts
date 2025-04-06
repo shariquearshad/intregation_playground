@@ -12,7 +12,7 @@ import { EvmService } from '../../services/evm.service';
   styleUrl: './walletselect.component.scss'
 })
 export class WalletselectComponent implements OnInit {
-  @Output() close=new EventEmitter<boolean>()
+  @Output() close=new EventEmitter<boolean>();
   constructor(
     public helper:HelperService,
     public evmService:EvmService

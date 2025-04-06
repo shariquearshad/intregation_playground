@@ -8,6 +8,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './swap-section.component.scss'
 })
 export class SwapSectionComponent  implements OnInit,OnChanges{
+
   constructor(
     private cd:ChangeDetectorRef
   ){
@@ -20,6 +21,7 @@ export class SwapSectionComponent  implements OnInit,OnChanges{
   }
   @Input() combination:any
   @Output() updateCombination=new EventEmitter<any>()
+  @Output() openTokenSelector=new EventEmitter<any>()
 
  ngOnInit(): void {
      console.log(this.combination)
@@ -27,6 +29,9 @@ export class SwapSectionComponent  implements OnInit,OnChanges{
  
   changeCombination(){
     this.updateCombination.emit(this.combination);
+  }
+  openPopup(type:any){
+    this.openTokenSelector.emit(type)
   }
 
   

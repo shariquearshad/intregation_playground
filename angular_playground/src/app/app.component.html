@@ -11,7 +11,7 @@
       </div>
       
       <div class="bg-gray-800 rounded-xl p-6">
-       <app-swap-section [combination]="combination" (updateCombination)="updateCombination($event)"></app-swap-section>
+       <app-swap-section (openTokenSelector)="openModal($event)" [combination]="combination" (updateCombination)="updateCombination($event)"></app-swap-section>
 
         
       </div>
