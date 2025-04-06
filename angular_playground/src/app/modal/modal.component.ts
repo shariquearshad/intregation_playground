@@ -13,7 +13,7 @@ export class ModalComponent {
   @Input() isOpen = false;
   @Input() activeModal:any;
   @Output() isOpenChange = new EventEmitter<boolean>();
-  close() {
+  close(val?:any) {
     this.isOpen = false;
     this.isOpenChange.emit(this.isOpen);
   }

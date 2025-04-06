@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -7,7 +7,27 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './swap-section.component.html',
   styleUrl: './swap-section.component.scss'
 })
-export class SwapSectionComponent {
+export class SwapSectionComponent  implements OnInit,OnChanges{
+  constructor(
+    private cd:ChangeDetectorRef
+  ){
+
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes)
+    console.log(this.combination)
+    this.cd.detectChanges()
+  }
+  @Input() combination:any
+  @Output() updateCombination=new EventEmitter<any>()
+
+ ngOnInit(): void {
+     console.log(this.combination)
+ }
+ 
+  changeCombination(){
+    this.updateCombination.emit(this.combination);
+  }
 
   
 }

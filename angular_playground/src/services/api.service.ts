@@ -82,5 +82,8 @@ export class ApiService {
   public swap(payload:any){
     return this.generateRequestRx2(request_types.post, `/swap`,payload,{});
   }
+  public async getPaginatedCoins(chainId:any,page:number,items:number,query?:string){
+    return await this.generateRequestRx2(request_types.get, `/v1/tokens?chainId=${chainId}&page=${page}&perPage=${items}`); 
+  }
   
 }

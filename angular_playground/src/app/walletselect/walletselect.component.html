@@ -8,15 +8,13 @@
             <div  >
                 <span class="spinner-border spinner-border-sm loading"></span>
             </div>
-            <h3 class="heading">
-                Select A Wallet
-            </h3>
+            
              <div class="wallet-body">
                 <div class="networks col-4 col-md-5">
                     <div >
                         <input
                         #coinSeach
-                        class=" px-4 py-10 h-[35px] rounded-lg w-full " 
+                        class=" bg-gray-600 px-4 py-10 h-[35px] rounded-lg w-full " 
                         placeholder=" NETWORK"
                         type="text"
                         id="networkSearchBox"
@@ -24,37 +22,41 @@
                         />
                     </div>
                    
-                   <div class="network-box row no-margin-x">
-                        <div class="network col-12 col-md-12" *ngFor="let network of networks| filter:'name':networkSearchQuery " (click)="selectNetwork(network)">
-                            <div container="body" placement="bottom"  class="network-child" [ngClass]="{
+                   <div class="  overflow-y-auto ">
+                        <div class="network " *ngFor="let network of networks| filter:'name':networkSearchQuery " (click)="selectNetwork(network)">
+                            <div container="body" placement="bottom"  class="p-2 bg-gray-700 my-4 rounded-lg flex h-8 items-center hover:bg-gray-600" [ngClass]="{' border-2 border-yellow-500':selectedNetwork.id===network.id
                                
                             }">
                                 <img [src]="network.logo" onerror="this.onerror=null; this.src='./img/not-allowed-32.png'" class="logo network-logo">
-                                <div class="text"> {{network.shorthand | uppercase}} </div>
+                                <div class=" mx-4"> {{network.shorthand | uppercase}} </div>
                             </div>
                         </div>
                     </div>
                 </div>
-              <!--   <div class="wallets col-8 col-md-7">
+                <div class="wallets ml-4">
+                    <h3 class="heading">
+                        Select A Wallet
+                    </h3>
                    
                    
-                    <div class="network-name">
+                    <div class="network-name  border-yellow-500">
                         {{ selectedNetwork.name | uppercase }}
                         <img container="body"  [src]="selectedNetwork.logo" onerror="this.onerror=null; this.src='./img/not-allowed-32.png'" class="logo">
 
                     </div>
                     <div class="wallets-container">
-                        <div *ngFor="let wallet of wallets"  >
-                            <div class="wallet" [ngClass]="{ 'err':!!wallet.error }"  (click)="!wallet.error && selectWallet(wallet.keyword)" [ngClass]="{'try-walletless': wallet.keyword == 'Walletless'}">
+                        <div class="bg-gray-600 rounded-lg" *ngFor="let wallet of wallets"  >
+                            <div  class="wallet" [ngClass]="{ 'err':!!wallet.error }"  (click)="!wallet.error && selectWallet(wallet.keyword)" [ngClass]="{'try-walletless': wallet.keyword == 'Walletless'}">
+                                <div class="icon" *ngIf="wallet.keyword != 'Walletless'">
+                                    <img class="logo" [src]="wallet.logo" onerror="this.onerror=null; this.src='./img/not-allowed-32.png'" >
+                                </div>
                             <div class="title">
                                 {{wallet.title | uppercase}}
                                 <span *ngIf="!!wallet.error" class="error-icon">
                                     <i class="fa fa-warning"></i> 
                                 </span> 
                             </div>
-                            <div class="icon" *ngIf="wallet.keyword != 'Walletless'">
-                                <img class="logo" [src]="wallet.logo" onerror="this.onerror=null; this.src='./img/not-allowed-32.png'" >
-                            </div>
+                           
                         </div>
                             
                         </div>
@@ -63,7 +65,7 @@
                        
                     </div>
                    
-                </div>-->
+                </div>
             </div> 
 			
 		</div>

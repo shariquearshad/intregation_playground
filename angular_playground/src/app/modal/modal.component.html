@@ -2,7 +2,7 @@
     <!-- Modal Box -->
     <div (click)="stopPropagation($event)"  class="bg-gray-800 rounded-2xl shadow-xl w-full max-w-md p-6">
      <div *ngIf="activeModal=='walletSelector'">
-        <app-walletselect></app-walletselect>
+        <app-walletselect (close)="close()"></app-walletselect>
 
      </div>
     </div>

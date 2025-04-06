@@ -205,7 +205,7 @@
         }
         .wallets{
             align-content: baseline;
-            // width: 80%;
+             width: 70%;
             // padding: 0.5rem 3px 0.5rem 0.5rem;
             display: grid;
             @media only screen and (max-width : 576px){
@@ -213,7 +213,7 @@
 			}
             .network-name{
                 // margin: 5px 0.6rem;
-                border-bottom: 2px solid var(--c-hard-gray);
+                border-bottom: 2px solid ;
                 padding: 14.5px 15px;
                 display: flex;
                 align-items: center;
@@ -273,25 +273,20 @@
 }
 
 #networkSearchBox{
-    background: var(--c-dark);
+   
     padding: 7px 12px;
     height: 35px;
-    border-radius: 4px !important;
-    font-family: DM Sans, FontAwesome;
+    border-radius: 4px !important;   
     color: var(--he-text-main);
     width: 100%;
     margin: 15px 0px;
-    font-size: 11px;
+    font-size: 14px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     position: relative;
     outline: none;
     border: none;
-    flex: 1 1 auto;
-    -webkit-appearance: textfield;
-    -moz-appearance: textfield;
-    appearance: textfield;
     text-align: left;
     margin-top: 7px;
     &::placeholder {
@@ -354,10 +349,8 @@
 
 .try-walletless {
     justify-content: center !important;
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-    animation: Walletless 6s ease infinite;
     background-size: 200% 200%;
-    color: #141429;
+   
 }
 
 @keyframes Walletless {

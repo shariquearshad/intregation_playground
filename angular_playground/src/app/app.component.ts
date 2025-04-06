@@ -11,11 +11,11 @@ import { HelperService } from '../services/helper.service';
 import { WalletselectComponent } from './walletselect/walletselect.component';
 import { SignalService } from '../services/signal.service';
 import { ModalComponent } from './modal/modal.component';
-import { FilterPipe } from '../helper/filter.pipe';
+
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule,FilterPipe,SwapSectionComponent,ModalComponent,QuotationComponent,HistoryComponent,HeaderComponent ],
+  imports: [CommonModule,SwapSectionComponent,ModalComponent,QuotationComponent,HistoryComponent,HeaderComponent ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -23,6 +23,8 @@ export class AppComponent implements OnInit  {
   isModalOpen = false;
   walletPopup:any=false;
   wsignal:any
+  loading:boolean = true;
+  combination:any;
   activeModal="walletSelect"
   constructor(
     private signalService:SignalService,
@@ -56,32 +58,35 @@ export class AppComponent implements OnInit  {
   ngOnInit() {
 
     this.simulatePriceUpdates();
-    this.getConfig()
-   
-    effect(()=>{
-      console.log(this.wsignal())
-      if(this.wsignal()){
-       console.log("triggered")
-      }
-
-    })
-    
-    
-      
-    
-   
+    this.getConfig().catch((err:any)=>{
+      console.log(err);
+      this.loading=false}) 
+  }
+  updateCombination(combination:any){
+    console.log(combination);
   }
   openModal(activeModal:string) {
     this.activeModal=activeModal;
     this.isModalOpen = true;
   }
-  getConfig(){
-    this.api.getConfigs().then((res:any)=>{
-      console.log(res);
-      this.helper.allConfig=res;
-      console.log(this.helper.allConfig)
+  async getConfig(){
+    this.loading=true;
+    let promises=[]
+    promises.push(this.api.getConfigs(),this.api.getPaginatedCoins('0x38',1,100))
+    const [configs, coins]=await Promise.all(promises)
+    this.helper.allConfig=configs;
+    this.combination=this.helper.setDefaultCoin(coins);
+    console.log(this.combination);
+    this.loading=false;
+    console.log(configs);
+    console.log(coins)
+    // this.api.getConfigs().then((res:any)=>{
+    //   console.log(res);
+    //   this.helper.allConfig=res;
+    //   console.log(this.helper.allConfig)
+    //   this.loading=false;
 
-    })
+    // })
     
   }
 

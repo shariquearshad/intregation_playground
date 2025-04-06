@@ -1,4 +1,7 @@
-<div class="min-h-screen bg-gray-900 text-white">
+<div *ngIf="loading" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+  <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
+</div>
+<div *ngIf="!loading" class="min-h-screen bg-gray-900 text-white">
  <app-header (openWalletSelector)="openModal($event)"></app-header>
 
   <main class="container mx-auto px-4 py-8">
@@ -8,7 +11,7 @@
       </div>
       
       <div class="bg-gray-800 rounded-xl p-6">
-       <app-swap-section></app-swap-section>
+       <app-swap-section [combination]="combination" (updateCombination)="updateCombination($event)"></app-swap-section>
 
         
       </div>
