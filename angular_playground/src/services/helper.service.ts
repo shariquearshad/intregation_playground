@@ -60,6 +60,7 @@ export class HelperService {
 
   }
   updateCombination(com:any){
+    this.activeCombination=com;
     this.selectCombination.next(com);
   }
   updateAddress(add:string){
@@ -69,9 +70,9 @@ export class HelperService {
     this.getTransactionHashSubject.next(Obj);
   }
   changeSourceNetworkByUser(nw:any){
-    let network:any = this.getNetwork(nw);
+    // let network:any = this.getNetwork(nw);
     if(this.activeWalletService?.activeWallet ){
-      this.changeCurrentNetwork(network);
+      this.changeCurrentNetwork(nw);
       return;
     }
 
@@ -82,7 +83,7 @@ export class HelperService {
   }
   public changeCurrentNetwork(net:any){
     if( _.toLower(this.getActiveWalletChainId())!==_.toLower(net.chainId)){
-      this.sourceNetwork = net;
+      this.activeWalletService.requestChangeNetwork(net)
       this.chainId = net.chainId;
     
       // this.currentNetworkSource.next(this.sourceNetwork)
@@ -93,7 +94,7 @@ export class HelperService {
     if(!this.activeWalletService){
       return;
     }
-    this.currentNetworkSource.next(this.activeWalletService.chainId);
+    // this.currentNetworkSource.next(this.activeWalletService.chainId);
     return this.activeWalletService.chainId;
   }
   public getNetwork(network:any){
@@ -104,4 +105,5 @@ export class HelperService {
       return network;
     }
   }
+  
 }

@@ -1,57 +1,69 @@
-<div class="space-y-4">
 
-  <div class="bg-gray-700 h-20 rounded-lg flex">
-    <div class=" flex" (click)="openPopup('fromTokenSelector')">
-      <img class=" rounded-full relative h-[50px] top-[13px] left-4" [src]="combination.sourceNetwork.logo" />
-      <img class="relative h-[20px] top-[50px] right-[-4px]" [src]="combination.sourceToken.icon_url" />
+
+
+
+<div class="max-w-sm mx-auto p-6 bg-gray-900 rounded-2xl shadow-lg text-white space-y-6">
+  <!-- Token Swap Section -->
+  <div class="space-y-4">
+    <!-- From Token (Editable) -->
+    <div class="flex items-center justify-between p-4 bg-gray-800 rounded-xl">
+      <div class="flex items-center space-x-2">
+        <div (click)="openPopup('fromTokenSelector')" class="relative">
+          <img [src]="combination.sourceNetwork.logo" alt="USDT" class="w-8 h-8 rounded-full" />
+          <img [src]="combination.sourceToken.icon_url" alt="BSC" class="w-4 h-4 absolute bottom-[-6px] right-[-8px] rounded-full " />
+        </div>
+        <span class="text-lg font-semibold">{{combination.sourceToken.token_symbol}}</span>
+      </div>
+      <div class="text-right">
+        <input
+          type="number"
+          [value]="combination.amount"
+          (change)='updateAmount($event)'
+          class="bg-transparent text-xl font-bold text-right w-24 focus:outline-none"
+        />
+        <div class="text-sm text-gray-400">{{getTokensUsdPrice('from',combination.sourceToken,combination.amount)|number:'1.0-2'}}</div>
+      </div>
     </div>
 
-    <label class="block text-sm mb-2"> </label>
-
-    <input [value]="combination.amount" type="number" class="w-full  p-3   outline-none">
-  </div>
-  <div class="bg-gray-700 h-20 rounded-lg flex">
-    <div class="flex" (click)="openPopup('toTokenSelector')">
-      <img class=" rounded-full relative h-[50px] top-[13px] left-4" [src]="combination.destinationNetwork.logo" />
-      <img class="relative h-[20px] top-[50px] right-[-4px]" [src]="combination.destinationToken.icon_url" />
-    </div>
-
-    <input [value]="activeQuote.toAmount.toFixed(4)" type="number" class="w-full  p-3 outline-none">
-
-
-  </div>
-  <div>
-
-    <div class=" flex justify-between my-4">
-      <h3>Min-recieved</h3>
-      <h5>{{activeQuote.additionalInfo.minRecieved|number:'1.2-3'}} {{!activeQuote.additionalInfo.minRecieved?'Market Price':''}}</h5>
-    </div>
-    <div class=" flex justify-between my-4">
-      <h3>
-        Difference
-      </h3>
-      <h5>
-        {{ getNegativeValue(activeQuote?.additionalInfo?.priceImpactWithoutGasFee) ? '' : '+'}}{{ getNegativeValue(activeQuote?.additionalInfo?.priceImpactWithoutGasFee) | number:'0.1-1'}}%
-      </h5>
-    </div>
-    <div class=" flex justify-between my-4">
-      <h3>
-        1 {{ activeQuote?.toTokenInfo?.token_symbol }} <span *ngIf="!isBridge(activeQuote)">BUY</span> <span *ngIf="isBridge(activeQuote)">AVG.</span> PRICE
-      </h3>
-      <h5>
-        ~ ${{ activeQuote?.additionalInfo?.avgPrice['to'] |  number:'1.0-4'}}
-      </h5>
-    </div>
-    <div class=" flex justify-between my-4">
-      <h3>
-        1 {{ activeQuote?.fromTokenInfo?.token_symbol }} Sell Price
-      </h3>
-      <h5>
-        ~ ${{ activeQuote?.additionalInfo?.avgPrice['from'] |  number:'1.0-4'}}
-      </h5>
+    <!-- To Token (Read-only) -->
+    <div class="flex items-center justify-between p-4 bg-gray-800 rounded-xl">
+      <div class="flex items-center space-x-2">
+        <div (click)="openPopup('toTokenSelector')" class="relative">
+          <img [src]="combination.destinationNetwork.logo" alt="BNB" class="w-8 h-8 rounded-full" />
+          <img [src]="combination.destinationToken.icon_url" alt="BSC" class="w-4 h-4 absolute bottom-[-6px] right-[-8px] rounded-full " />
+        </div>
+        <span class="text-lg font-semibold">{{combination.destinationToken.token_symbol}}</span>
+      </div>
+      <div class="text-right">
+        <div class="text-xl font-bold">{{activeQuote.toAmount|number:'1.0-4'}}</div>
+        <div class="text-sm text-gray-400">{{getTokensUsdPrice('to',combination.destinationToken,activeQuote.toAmount)|number:'1.1-2'}}</div>
+      </div>
     </div>
   </div>
 
+  <!-- Price Details -->
+  <div class="text-sm text-gray-300 space-y-2">
+    <div class="flex justify-between">
+      <span>Min Received</span>
+      <span class="text-white font-medium">{{activeQuote.additionalInfo.minRecieved|number:'1.2-3'}} {{!activeQuote.additionalInfo.minRecieved?'Market Price':''}}</span>
+    </div>
+    <div class="flex justify-between">
+      <span>Difference</span>
+      <span class="text-white font-medium">{{ getNegativeValue(activeQuote?.additionalInfo?.priceImpactWithoutGasFee) ? '' : '+'}}{{ getNegativeValue(activeQuote?.additionalInfo?.priceImpactWithoutGasFee) | number:'0.1-1'}}%</span>
+    </div>
+    <div class="flex justify-between">
+      <span> 1 {{ activeQuote?.toTokenInfo?.token_symbol }} <span *ngIf="!isBridge(activeQuote)">BUY</span> <span *ngIf="isBridge(activeQuote)">AVG.</span> PRICE</span>
+      <span class="text-white font-medium">  ~ ${{ activeQuote?.additionalInfo?.avgPrice['to'] |  number:'1.0-4'}}</span>
+    </div>
+    <div class="flex justify-between">
+      <span> 1 {{ activeQuote?.fromTokenInfo?.token_symbol }} Sell Price</span>
+      <span class="text-white font-medium"> ~ ${{ activeQuote?.additionalInfo?.avgPrice['from'] |  number:'1.0-4'}}</span>
+    </div>
+  </div>
 
-  <button type="submit" class="w-full py-3 rounded-lg text-black bg-yellow-400 font-semibold">Buy BTC</button>
+  <!-- Buy Button -->
+  <button (click)="buttonClicked()" class="w-full py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-semibold rounded-xl transition duration-200">
+    {{getButtonName()}}
+  </button>
 </div>
+

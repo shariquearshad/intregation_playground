@@ -4,7 +4,7 @@ import { HelperService } from '../../services/helper.service';
 import { ApiService } from '../../services/api.service';
 import { FormsModule } from '@angular/forms';
 import { MultiColSearchPipe,FilterPipe } from "../../helper/filter.pipe";
-import _ from 'lodash'
+import _, { cloneDeep } from 'lodash'
 
 @Component({
   selector: 'app-tokenselection',
@@ -207,7 +207,7 @@ export class TokenselectionComponent implements OnInit {
 
     if(!!coin.enabled && (!coin.is_custom || (!!coin.is_custom && coin.isImported) )){
       // network
-      let activeCombination={...this.helper.activeCombination}
+      let activeCombination=_.cloneDeep(this.helper.activeCombination)
       if(this.type==='TO'){
         
         activeCombination.destinationNetwork=this.selectedNetwork;

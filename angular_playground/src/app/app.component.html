@@ -7,11 +7,11 @@
   <main class="container mx-auto px-4 py-8">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div class="lg:col-span-2 bg-gray-800 rounded-xl p-6">
-        <app-quotation (activeQuotation)="updateActiveQuotation($event)" [quotation]="quotation"></app-quotation>
+        <app-quotation (refreshQoute)="getQuotation()"  (activeQuotation)="updateActiveQuotation($event)" [quotation]="quotation"></app-quotation>
       </div>
       
       <div class="bg-gray-800 rounded-xl p-6">
-       <app-swap-section (openTokenSelector)="openModal($event)"[activeQuote]="activequotation" [combination]="combination" (updateCombination)="updateCombination($event)"></app-swap-section>
+       <app-swap-section (openTokenSelector)="openModal($event)" (openWalletSelector)="openModal($event)"[activeQuote]="activequotation" [combination]="combination" (updateCombination)="updateCombination($event)"></app-swap-section>
 
         
       </div>

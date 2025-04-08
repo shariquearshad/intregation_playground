@@ -38,6 +38,7 @@ export class QuotationComponent implements OnInit {
       selected: false
     }
   ];
+  @Output() refreshQoute=new EventEmitter<void>()
   ngOnInit(): void {
       console.log('a',this.quotation)
       this.quotation.quotes[0].selected=true;
@@ -48,4 +49,8 @@ export class QuotationComponent implements OnInit {
     this.activeQuotation.emit(selectedQuote);
     }
   }
+  refresh(){
+    this.refreshQoute.emit()
+  }
+  
 }

@@ -1,11 +1,11 @@
 <div >
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-xl font-bold">Available Routes</h2>
-      <div class="text-yellow-500 text-sm">click to refresh</div>
+      <div (click)="refresh()" class="text-yellow-500 text-sm">click to refresh</div>
     </div>
     
-    <div class="space-y-4">
-      <div *ngFor="let quote of quotation?.quotes" 
+    <div *ngIf="quotation.quotes.length>0" class="space-y-4">
+      <div  *ngFor="let quote of quotation?.quotes" 
            class="bg-gray-700 p-4 rounded-lg hover:bg-gray-600 cursor-pointer"
            [class.border-2]="quote.selected"
            [class.border-yellow-500]="quote.selected"
@@ -15,7 +15,7 @@
           <div class="flex items-center space-x-3">
             <img [src]="quote.exchangeInfo.logo" class="h-8 w-8 rounded-full" [alt]="quote.exchangeInfo.logo">
             <span class="font-medium">{{quote.exchangeInfo.title}} ( {{quote.exchangeInfo.exchange_type}})</span>
-            <span class=" bg-yellow-500 rounded-xl flex items-center p-[2px] text-black" *ngIf="quote.exchangeInfo.walletLess">walletless</span>
+            <span class=" bg-yellow-500 rounded-xl flex items-center px-4 p-[2px] text-black" *ngIf="quote.exchangeInfo.walletLess">walletless</span>
           </div>
           <div class="text-right">
             <div class="text-lg font-bold">{{quote.fromAmount | number:'1.2-6'}} {{quote.fromTokenInfo.token_symbol}}</div>

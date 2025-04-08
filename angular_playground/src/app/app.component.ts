@@ -118,7 +118,7 @@ export class AppComponent implements OnInit  {
     // }
   }
 
-  private async getQuotation() {
+  public async getQuotation() {
     const{sourceNetwork,destinationNetwork,sourceToken,destinationToken,amount}=this.combination
     this.quotation=await this.api.getQuotes(sourceToken,sourceNetwork,destinationToken,destinationNetwork,amount)
     console.log(this.quotation)
