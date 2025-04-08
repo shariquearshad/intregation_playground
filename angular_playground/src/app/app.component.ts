@@ -28,6 +28,7 @@ export class AppComponent implements OnInit  {
   combination:any;
   activeModal="walletSelect"
   quotation:any;
+  activequotation:any;
   constructor(
     private signalService:SignalService,
     private api:ApiService,
@@ -60,11 +61,11 @@ export class AppComponent implements OnInit  {
   ngOnInit() {
 
    
-    this.helper.currentCombination.subscribe((val:any)=>{
+    this.helper.currentCombination.subscribe(async (val:any)=>{
       console.log("sub",val)
       if(!_.isEmpty(val)){
         this.combination=val;
-        this.getQuotation()
+        await this.getQuotation()
       }
       
     })
@@ -75,6 +76,9 @@ export class AppComponent implements OnInit  {
   updateCombination(combination:any){
     console.log(combination);
     this.quotation();
+  }
+  updateActiveQuotation(quote:any){
+    this.activequotation=quote;
   }
   openModal(activeModal:any) {
     this.activeModal=activeModal;
@@ -88,8 +92,8 @@ export class AppComponent implements OnInit  {
     this.helper.allConfig=configs;
     this.combination=this.helper.setDefaultCoin(coins);
     console.log(this.combination);
-    let val=await this.getQuotation()
-    console.log(val);
+    await this.getQuotation()
+    ;
     this.loading=false;
     console.log(configs);
     console.log(coins);
@@ -118,6 +122,7 @@ export class AppComponent implements OnInit  {
     const{sourceNetwork,destinationNetwork,sourceToken,destinationToken,amount}=this.combination
     this.quotation=await this.api.getQuotes(sourceToken,sourceNetwork,destinationToken,destinationNetwork,amount)
     console.log(this.quotation)
+    this.activequotation=this.quotation.quotes[0];
     return this.quotation;
   }
 }

@@ -5,7 +5,7 @@
         <app-walletselect (close)="close()"></app-walletselect>
 
      </div>
-     <div *ngIf="activeModal==='fromTokenSelector'||'toTokenSelector'">
+     <div *ngIf="['fromTokenSelector','toTokenSelector'].includes(activeModal)">
       <app-tokenselection [modalType]="activeModal" (close)="close()"></app-tokenselection>
 
      </div>

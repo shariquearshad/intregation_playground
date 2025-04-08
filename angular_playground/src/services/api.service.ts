@@ -77,7 +77,7 @@ export class ApiService {
     return this.generateRequestRx(request_types.get, `/v1/configs`);
   }
   public getQuotes(fromToken:any,fromNetwork:any,toToken:any,toNetwork:any,amount:any){
-    return from(this.generateRequestRx2(request_types.get, `/v1/quotation?fromToken=${fromToken.is_native_token?undefined:fromToken.contract_address}&fromNetwork=${fromNetwork.id}&toToken=${toToken.is_native_token?undefined:toToken.contract_address}&toNetwork=${toNetwork.id}&amount=${amount}`))
+    return this.generateRequestRx2(request_types.get, `/v1/quotation?fromToken=${fromToken.is_native_token?undefined:fromToken.contract_address}&fromNetwork=${fromNetwork.id}&toToken=${toToken.is_native_token?undefined:toToken.contract_address}&toNetwork=${toNetwork.id}&amount=${amount}`)
   }
   public swap(payload:any){
     return this.generateRequestRx2(request_types.post, `/swap`,payload,{});

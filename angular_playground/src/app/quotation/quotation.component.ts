@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output,  } from '@angular/core';
 @Component({
   selector: 'app-quotation',
   imports: [CommonModule],
   templateUrl: './quotation.component.html',
   styleUrl: './quotation.component.scss'
 })
-export class QuotationComponent {
+export class QuotationComponent implements OnInit {
   @Input() quotation:any
+  @Output() activeQuotation=new EventEmitter<any>()
   quotes= [
     {
       provider: "1inch",
@@ -37,10 +38,14 @@ export class QuotationComponent {
       selected: false
     }
   ];
+  ngOnInit(): void {
+      console.log('a',this.quotation)
+      this.quotation.quotes[0].selected=true;
+  }
   selectQuote(selectedQuote:any) {
-    this.quotes.forEach(quote => quote.selected = quote === selectedQuote);
-    // this.tradeForm.patchValue({
-    //   price: selectedQuote.rate
-    // });
+    if(!selectedQuote.err && selectedQuote.isTxnAllowed){
+    this.quotation.quotes.forEach((quote:any) => quote['selected'] = quote === selectedQuote);
+    this.activeQuotation.emit(selectedQuote);
+    }
   }
 }

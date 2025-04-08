@@ -1,9 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-swap-section',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,CommonModule],
   templateUrl: './swap-section.component.html',
   styleUrl: './swap-section.component.scss'
 })
@@ -22,7 +23,7 @@ export class SwapSectionComponent  implements OnInit,OnChanges{
   @Input() combination:any
   @Output() updateCombination=new EventEmitter<any>()
   @Output() openTokenSelector=new EventEmitter<any>()
-
+  @Input() activeQuote:any
  ngOnInit(): void {
      console.log(this.combination)
  }

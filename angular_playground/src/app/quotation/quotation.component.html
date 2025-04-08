@@ -1,29 +1,45 @@
 <div >
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-xl font-bold">Available Routes</h2>
-      <div class="text-yellow-500 text-sm">Best Price Routing</div>
+      <div class="text-yellow-500 text-sm">click to refresh</div>
     </div>
     
     <div class="space-y-4">
-      <div *ngFor="let quote of quotes" 
+      <div *ngFor="let quote of quotation?.quotes" 
            class="bg-gray-700 p-4 rounded-lg hover:bg-gray-600 cursor-pointer"
            [class.border-2]="quote.selected"
            [class.border-yellow-500]="quote.selected"
            (click)="selectQuote(quote)">
+           <div *ngIf="!quote.err && quote.isTxnAllowed">
         <div class="flex justify-between items-center">
           <div class="flex items-center space-x-3">
-            <img [src]="quote.providerIcon" class="h-8 w-8 rounded-full" [alt]="quote.provider">
-            <span class="font-medium">{{quote.provider}}</span>
+            <img [src]="quote.exchangeInfo.logo" class="h-8 w-8 rounded-full" [alt]="quote.exchangeInfo.logo">
+            <span class="font-medium">{{quote.exchangeInfo.title}}</span>
           </div>
           <div class="text-right">
-            <div class="text-lg font-bold">{{quote.rate | number:'1.2-6'}} USDT</div>
-            <div class="text-sm text-gray-400">Expected Output: {{quote.expectedOutput | number:'1.2-2'}} USDT</div>
+            <div class="text-lg font-bold">{{quote.fromAmount | number:'1.2-6'}} {{quote.fromTokenInfo.token_symbol}}</div>
+            <div class="text-sm text-gray-400">Expected Output: {{quote.toAmount | number:'1.2-4'}} {{quote.toTokenInfo.token_symbol}}</div>
           </div>
         </div>
         <div class="mt-2 flex justify-between text-sm text-gray-400">
-          <span>Gas Fee: {{quote.gasFee}} USDT</span>
-          <span>Time: ~{{quote.estimatedTime}}s</span>
+          <span>Gas Fee: ${{quote.gasFeeUsd}} </span>
+          <span>Time: ~{{quote.estTimeInSeconds.avg}}s</span>
         </div>
+      </div>
+      <div *ngIf="quote.err||!quote.isTxnAllowed" class=" cursor-not-allowed opacity-50" >
+        <div class="flex justify-between items-center">
+          <div class="flex items-center space-x-3">
+            <img [src]="quote.exchangeInfo.logo" class="h-8 w-8 rounded-full" [alt]="quote.exchangeInfo.logo">
+            <span class="font-medium">{{quote.exchangeInfo.title}}</span>
+          </div>
+          <div class="text-right">
+            <div class="text-lg font-bold">{{quote.fromAmount | number:'1.2-6'}} {{quote.fromTokenInfo.token_symbol}}</div>
+            <div class="text-sm text-gray-400">Expected Output: {{quote.toAmount | number:'1.2-4'}} {{quote.toTokenInfo.token_symbol}}</div>
+          </div>
+        </div>
+        {{quote.err}} 
+
+      </div >
       </div>
     </div>
   </div>
