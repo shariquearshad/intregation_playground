@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @use "tailwindcss";
+@plugin "daisyui";
 .shadow-xl {
     --tw-shadow: 6px 17px 25px 3px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 10px 8px 10px 12px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);

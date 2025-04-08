@@ -23,12 +23,19 @@ export class HelperService {
   currentCombination=this.selectCombination.asObservable();
   public currentNetworkSource = new BehaviorSubject({});
   currentNetwork = this.currentNetworkSource.asObservable();
+  public updateChainId= new BehaviorSubject("");
+   currentChainId= this.updateChainId.asObservable();
+  public updateWalletAddress=new BehaviorSubject("");
+   currentWalletAddress= this.updateWalletAddress.asObservable();
+
   
 
   constructor() { }
-  logoutSub(){
-    this.activeWalletService.logOut()
-    this.activeWalletService={}
+  async logoutSub(){
+    await this.activeWalletService.logOut()
+     this.activeWalletService={};
+     this.updateChainId.next("");
+     this.updateWalletAddress.next("");
 
   }
   setDefaultCoin(coins:any) {
@@ -43,11 +50,20 @@ export class HelperService {
     this.activeCombination=combination
    return combination;
   }
-  getChainId(){
+  async getChainId(){
+    let chainId=await this.activeWalletService.getChainId();
+    this.updateChainId.next(chainId)
+    console.log("chainId",chainId)
+
+
+
 
   }
   updateCombination(com:any){
     this.selectCombination.next(com);
+  }
+  updateAddress(add:string){
+    this.updateWalletAddress.next(add);
   }
   public newTransactionHash(Obj:any){
     this.getTransactionHashSubject.next(Obj);
@@ -68,7 +84,8 @@ export class HelperService {
     if( _.toLower(this.getActiveWalletChainId())!==_.toLower(net.chainId)){
       this.sourceNetwork = net;
       this.chainId = net.chainId;
-      this.currentNetworkSource.next(this.sourceNetwork)
+    
+      // this.currentNetworkSource.next(this.sourceNetwork)
     }
 
   }
@@ -76,7 +93,8 @@ export class HelperService {
     if(!this.activeWalletService){
       return;
     }
-    return this.activeWalletService.chainId
+    this.currentNetworkSource.next(this.activeWalletService.chainId);
+    return this.activeWalletService.chainId;
   }
   public getNetwork(network:any){
     if(typeof network==='string'){

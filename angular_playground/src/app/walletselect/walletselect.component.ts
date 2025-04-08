@@ -141,6 +141,7 @@ export class WalletselectComponent implements OnInit {
         let account=await this.helper.activeWalletService.getAccounts();
         if(account && account.length > 0) {
           console.log(account)
+          await this.helper.updateAddress(account)
           await this.helper.getChainId();
           this.helper.activeWalletService.activeWallet = account;
           

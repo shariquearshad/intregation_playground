@@ -1,12 +1,34 @@
 <header class="bg-gray-800 border-b border-yellow-500">
-    <nav class="container mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center space-x-4">
-        <img src="https://images.unsplash.com/photo-1621416894569-0f39ed31d247" alt="Crypto Logo" class="h-8 w-8 rounded-full">
-        <h1 class="text-xl font-bold text-yellow-500">Playground</h1>
+  <nav class="container mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center space-x-4">
+      <img src="https://images.unsplash.com/photo-1621416894569-0f39ed31d247" alt="Crypto Logo"
+        class="h-8 w-8 rounded-full">
+      <h1 class="text-xl font-bold text-yellow-500">Playground</h1>
+    </div>
+    <div class="hidden md:flex items-center space-x-6">
+      <div class=" flex items-center" *ngIf="activeWallet">
+        <img class=" rounded-full h-[50px]  left-4" [src]="currentNetwork.logo" />
+        <div class="mx-4"> {{activeWallet.slice(0,5)}}....{{activeWallet.slice(activeWallet.length - 5,
+          activeWallet.length)}}</div>
+        <span (click)="copy()" class=" tooltip" data-tip=" Click here Copy" id="default-icon">
+          <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+            viewBox="0 0 18 20">
+            <path
+              d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z" />
+          </svg>
+        </span>
+        <span  class="tooltip" data-tip="Copied" id="success-icon" class="hidden">
+          <svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M1 5.917 5.724 10.5 15 1.5" />
+          </svg>
+        </span>
       </div>
-      <div class="hidden md:flex items-center space-x-6">
-       
-        <button (click)="updateWalletPopup()" class="bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors">Connect Wallet</button>
-      </div>
-    </nav>
-  </header>
+
+
+      <button (click)="activeWallet?disconnect():updateWalletPopup()"
+        class="bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors">{{activeWallet==''?'Connect Wallet':'Disconnect Wallet'}}</button>
+    </div>
+  </nav>
+</header>

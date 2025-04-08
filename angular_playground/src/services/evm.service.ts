@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HelperService } from './helper.service';
 import { multiplyNumbers,removeLeadingZeroesFromHex } from '../helper/math';
 import * as _ from 'lodash';
+import Web3 from 'web3';
+
 declare let ethereum: any;
-declare let Web3: any;
 @Injectable({
   providedIn: 'root'
 })
@@ -11,13 +12,14 @@ export class EvmService {
   provider:any
   account:any
   activeWallet:String | undefined
-  web3: any;
+  public web3: any;
   
   chainId:any;
   
 
   constructor(
     private helper:HelperService
+    
   ) { }
   public async getAccounts() {
     try {
@@ -129,7 +131,8 @@ export class EvmService {
       throw new Error('not defined');
     }
   }
-  public logout(){
+  public async logOut(){
+    this.provider={};
 		
 	}
   public getGasPrice(){
