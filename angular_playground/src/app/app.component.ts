@@ -16,7 +16,7 @@ import _ from 'lodash'
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule,SwapSectionComponent,ModalComponent,QuotationComponent,HistoryComponent,HeaderComponent ],
+  imports: [CommonModule,SwapSectionComponent,ModalComponent,QuotationComponent,HeaderComponent ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -68,6 +68,11 @@ export class AppComponent implements OnInit  {
         await this.getQuotation()
       }
       
+    })
+    this.helper.currentActiveHistoryReqId.subscribe(async(val:any)=>{
+      if(!_.isEmpty(val)){
+       setTimeout(()=>this.openModal('activeHistory'),100)
+      }
     })
     this.getConfig().catch((err:any)=>{
       console.log(err);

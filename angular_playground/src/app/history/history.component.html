@@ -1,1 +1,93 @@
-<p>history works!</p>
+<div *ngIf="loading" class="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+<div *ngIf="status"  class="bg-[#1c1e23] text-white p-6 rounded-xl w-full max-w-2xl mx-auto space-y-6">
+    <!-- Heading -->
+    <div class="text-center">
+      <h2 class="text-sm text-yellow-400 font-semibold uppercase">Send Tokens to Initiate the Swap</h2>
+      <p class="text-xs text-gray-400 mt-1">
+        After sending tokens you may close this window & proceed with other swaps.
+        You can check status anytime using this <a href="#" class="text-yellow-400 underline">link</a> or via history menu.
+      </p>
+    </div>
+  
+    <!-- Route Info -->
+    <div class="bg-gradient-to-r from-[#2b2f36] to-[#3a3f47] p-4 rounded-xl flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <img [src]="status.fromTokenInfo.network_logo" class="w-6 h-6" />
+        <img [src]="status.toTokenInfo.network_logo" class="w-6 h-6" />
+        <span class="text-sm font-medium">{{status.fromTokenInfo.token_symbol}} &gt; {{status.toTokenInfo.token_symbol}}</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="text-xs font-medium text-gray-300">VIA</span>
+        <div class="w-7 h-7 rounded-full bg-black flex items-center justify-center">
+          <img [src]="status.exchangeInfo.logo" class="w-4 h-4" />
+        </div>
+      </div>
+    </div>
+  
+    <!-- Swap Details -->
+    <div class="grid grid-cols-2 gap-4 text-sm">
+      <div>
+        <p class="text-gray-400">You Send</p>
+        <p class="font-semibold text-white">{{status.latestQuote.fromAmount}} {{status.fromTokenInfo.token_symbol}}</p>
+      </div>
+      <div>
+        <p class="text-gray-400">Network</p>
+        <p class="font-semibold text-white">{{status.fromTokenInfo.network_name}}</p>
+      </div>
+      <div class="col-span-2">
+        <p class="text-gray-400">Deposit Address</p>
+        <div class="flex items-center justify-between bg-[#2b2f36] rounded-md px-3 py-2 mt-1">
+          <span class="text-sm font-mono truncate">{{status.depositAddress}}</span>
+          <button class="text-gray-400 hover:text-yellow-400">
+            📋
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Progress Bar -->
+    <div class="flex justify-between items-center border-t border-gray-700 pt-4">
+      <div class="flex-1 text-center">
+        <p class="text-xs text-yellow-400 font-semibold">Status</p>
+      </div>
+      <div class="flex-1 text-center">
+        <p class="text-xs text-yellow-400 font-semibold">Processing</p>
+      </div>
+      <div class="flex-1 text-center">
+        <p class="text-xs text-yellow-400 font-semibold">{{gettxStatus()}}</p>
+      </div>
+    </div>
+  
+    <!-- Transaction Details -->
+    <div class="grid grid-cols-2 gap-4 text-sm">
+      <div>
+        <p class="text-gray-400">You Get (Est.)</p>
+        <p class="text-white font-semibold">{{status.latestQuote.toAmount|number:"1.0-3"}} {{status.fromTokenInfo.token_symbol}}</p>
+      </div>
+      <div>
+        <p class="text-gray-400">TX ID</p>
+        <p class="text-white font-semibold">{{status.txId}}</p>
+      </div>
+      <div>
+        <p class="text-gray-400">Recipient Address</p>
+        <p class="text-white font-mono truncate">{{status.destinationAddress}}</p>
+      </div>
+      <div>
+        <p class="text-gray-400">Destination Contract</p>
+        <p class="text-white">{{status.toTokenInfo.is_network_token? "Network Token" : status.toTokenInfo.contract_address}}</p>
+      </div>
+    </div>
+  
+    <!-- Notes -->
+    <div class="bg-[#2b2f36] text-gray-400 text-xs border border-yellow-600 rounded-md p-3 space-y-1">
+      <p>• Sending a different token or incorrect network may lead to loss of funds.</p>
+      <p>• If you sent the coins and the status did not change immediately, don’t worry. Our system needs a few minutes to detect the transaction.</p>
+    </div>
+  
+    <!-- Footer -->
+    <div class="text-center text-xs text-gray-500">
+      <p class="mt-2">By doing this swap you accept our <a href="#" class="text-yellow-400 underline">Terms of Use</a> & <a href="#" class="text-yellow-400 underline">Privacy Policy</a></p>
+      <p class="mt-1">Any issue with the swap? <a href="#" class="text-yellow-400 underline">Contact Support</a></p>
+    </div>
+  </div>
+  

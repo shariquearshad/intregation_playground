@@ -13,7 +13,9 @@ export class HelperService {
     destinationNetwork:{},
     amount:100
   }
- 
+  recipientAddress="";
+  selectedQuote:any={}
+  
   public getTransactionHashSubject = new Subject();
   activeWalletService:any;
   allConfig:any;
@@ -27,6 +29,8 @@ export class HelperService {
    currentChainId= this.updateChainId.asObservable();
   public updateWalletAddress=new BehaviorSubject("");
    currentWalletAddress= this.updateWalletAddress.asObservable();
+  public activeHistoryReqId=new BehaviorSubject("");
+   currentActiveHistoryReqId=this.activeHistoryReqId.asObservable();
 
   
 

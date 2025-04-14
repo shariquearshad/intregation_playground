@@ -41,11 +41,24 @@
     </div>
   </div>
 
+  <!-- Recipient Address Input -->
+  <div class="space-y-2">
+    <label for="recipient" class="text-sm text-gray-300">Recipient Address</label>
+    <input
+      type="text"
+      id="recipient"
+      placeholder="Enter recipient wallet address"
+      [(value)]="recipientAddress"
+      (blur)="updateRecipientAddress($event)"
+      class="w-full p-3 bg-gray-800 text-white rounded-xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+    />
+  </div>
+
   <!-- Price Details -->
-  <div class="text-sm text-gray-300 space-y-2">
+  <div *ngIf="!activeQuote.err" class="text-sm text-gray-300 space-y-2">
     <div class="flex justify-between">
       <span>Min Received</span>
-      <span class="text-white font-medium">{{activeQuote.additionalInfo.minRecieved|number:'1.2-3'}} {{!activeQuote.additionalInfo.minRecieved?'Market Price':''}}</span>
+      <span class="text-white font-medium">{{activeQuote?.additionalInfo?.minRecieved|number:'1.2-3'}} {{!activeQuote.additionalInfo.minRecieved?'Market Price':activeQuote.toTokenInfo.token_symbol}}</span>
     </div>
     <div class="flex justify-between">
       <span>Difference</span>

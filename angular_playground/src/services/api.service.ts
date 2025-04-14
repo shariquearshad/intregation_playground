@@ -80,13 +80,16 @@ export class ApiService {
     return this.generateRequestRx2(request_types.get, `/v1/quotation?fromToken=${fromToken.is_native_token?undefined:fromToken.contract_address}&fromNetwork=${fromNetwork.id}&toToken=${toToken.is_native_token?undefined:toToken.contract_address}&toNetwork=${toNetwork.id}&amount=${amount}`)
   }
   public swap(payload:any){
-    return this.generateRequestRx2(request_types.post, `/swap`,payload,{});
+    return this.generateRequestRx2(request_types.post, `/v1/swap`,payload,{});
   }
   public async getPaginatedCoins(chainId:any,page:number,items:number,query?:string){
     return await this.generateRequestRx2(request_types.get, `/v1/tokens?chainId=${chainId}&page=${page}&perPage=${items}`); 
   }
   public async getFilteredCoins(query:string,chainId:number){
     return await this.generateRequestRx2(request_types.get, `/v1/tokens${query ? `?keyword=${query}&chainId=${chainId}` : ``}`); 
+  }
+  public async getStatus(reqId:string,txHash?:string){
+    return this.generateRequestRx2(request_types.get, `/v1/status?requestId=${reqId}${txHash ? `&txId=${txHash}` : ''}`);
   }
   
 }

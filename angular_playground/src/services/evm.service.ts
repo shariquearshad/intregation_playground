@@ -207,12 +207,12 @@ export class EvmService {
           params: params
         });
         console.log(JSON.stringify({ transactionHash: transactionHash, token: token?.requestId}))
-        return this.helper.newTransactionHash({ transactionHash: transactionHash, token: token?.requestId});
+        return transactionHash
       }
 
     } catch (err:any) {
-      this.helper.newTransactionHash({err:err.data?.message||err.message || JSON.stringify(err)});
-      console.log(err);
+     
+      return err
     }
   }
   isNetworkSupported(nw:any){

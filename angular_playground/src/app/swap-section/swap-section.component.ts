@@ -17,8 +17,9 @@ export class SwapSectionComponent  implements OnInit,OnChanges{
     address: string;
 
   } | undefined
-  buttonName="Swap"
-
+  buttonName="Swap";
+  recipientAddress="";
+  regexError=false;
   constructor(
     private cd:ChangeDetectorRef,
     private helper:HelperService
@@ -37,6 +38,10 @@ export class SwapSectionComponent  implements OnInit,OnChanges{
   @Input() activeQuote:any
  ngOnInit(): void {
      console.log(this.combination)
+ }
+ updateRecipientAddress(event:any){
+  this.recipientAddress=event.target.value;
+  console.log(this.recipientAddress)
  }
  
   changeCombination(){
@@ -86,20 +91,21 @@ export class SwapSectionComponent  implements OnInit,OnChanges{
   buttonClicked(){
     switch(this.buttonName){
       case 'Swap':{
-        console.log("swap executed");
+        this.helper.selectedQuote=this.activeQuote;
+        console.log('rec',this.recipientAddress)
+        this.helper.recipientAddress=this.recipientAddress;
+        this.openWalletSelector.emit('initiateTransaction');
         break;
       }
       case 'Change Network':{
-        console.log("change Network")
+        console.log("change Network");
         this.helper.changeSourceNetworkByUser(this.combination.sourceNetwork);
         break;
       }
       case 'Connect Wallet':{
-        this.openWalletSelector.emit('walletSelector')
+        this.openWalletSelector.emit('walletSelector');
         break;
       }
     }
   }
-
-  
 }

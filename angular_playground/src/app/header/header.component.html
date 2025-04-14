@@ -8,8 +8,7 @@
     <div class="hidden md:flex items-center space-x-6">
       <div class=" flex items-center" *ngIf="activeWallet">
         <img class=" rounded-full h-[30px]  left-4" [src]="currentNetwork.logo" />
-        <div class="mx-4"> {{activeWallet.slice(0,5)}}....{{activeWallet.slice(activeWallet.length - 5,
-          activeWallet.length)}}</div>
+        <div class="mx-4"> {{activeWallet.slice(0,5)}}....{{activeWallet.slice(activeWallet.length - 5,activeWallet.length)}}</div>
         <span (click)="copy()" class=" tooltip" data-tip=" Click here Copy" id="default-icon">
           <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
             viewBox="0 0 18 20">

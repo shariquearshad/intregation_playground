@@ -9,5 +9,12 @@
       <app-tokenselection [modalType]="activeModal" (close)="close()"></app-tokenselection>
 
      </div>
+     <div *ngIf="['initiateTransaction'].includes(activeModal)">
+      <app-transaction  (close)="close()"></app-transaction>
+     </div>
+     <div *ngIf="['history','activeHistory'].includes(activeModal)">
+      <app-history  [modalType]="activeModal"></app-history>
+
+     </div>
     </div>
   </div>

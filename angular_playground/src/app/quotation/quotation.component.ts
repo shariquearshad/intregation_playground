@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output,  } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output,  } from '@angular/core';
 @Component({
   selector: 'app-quotation',
   imports: [CommonModule],
   templateUrl: './quotation.component.html',
   styleUrl: './quotation.component.scss'
 })
-export class QuotationComponent implements OnInit {
+export class QuotationComponent implements OnInit,OnChanges {
   @Input() quotation:any
   @Output() activeQuotation=new EventEmitter<any>()
   quotes= [
@@ -42,6 +42,10 @@ export class QuotationComponent implements OnInit {
   ngOnInit(): void {
       console.log('a',this.quotation)
       this.quotation.quotes[0].selected=true;
+  }
+  ngOnChanges(val:any){
+    this.quotation.quotes[0].selected=true;
+
   }
   selectQuote(selectedQuote:any) {
     if(!selectedQuote.err && selectedQuote.isTxnAllowed){
