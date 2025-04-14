@@ -55,6 +55,12 @@ export class HeaderComponent implements OnInit {
   disconnect(){
     this.helper.logoutSub();
   }
+  openHistory(){
+    this.openWalletSelector.emit('history')
+  }
+  openSettings(){
+
+  }
 
 
 }

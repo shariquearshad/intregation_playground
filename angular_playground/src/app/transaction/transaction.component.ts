@@ -122,7 +122,9 @@ swapApiRes:any={}
         this.swapApiPayload['destinationAddress'] = this.helper.recipientAddress;
         this.swapApiRes=await this.api.swap(this.swapApiPayload);
         if(this.swapApiRes.exchangeInfo.walletLess){
+          this.saveToLocal(this.swapApiRes)
          this.openActiveHistory(this.swapApiRes.requestId);
+         return;
         }
         if(this.swapApiRes.exchangeInfo.exchange_type==="DEX"){
 
@@ -135,6 +137,7 @@ swapApiRes:any={}
         const targetToken = this.swapApiRes.toTokenInfo;
         let txHash=await this.helper.activeWalletService.initiateTransaction(this.swapApiPayload,this.swapApiRes,baseToken,targetToken,depositAddress).catch((err:any)=>console.log(err));
         let status=this.api.getStatus(this.swapApiRes.requestId,txHash);
+        this.saveToLocal(this.swapApiRes)
         this.openActiveHistory(this.swapApiRes.requestId);
 
 
@@ -147,6 +150,30 @@ swapApiRes:any={}
     
       return await this.api.getStatus(reqId,txHash);
         
+    }
+     saveToLocal(tx:any){
+      let list:any=localStorage.getItem('transactions');
+      list=list==null?[]:JSON.parse(list);
+      let newTx={
+        reqId:tx.requestId,
+        fromTokenInfo:{
+           tokenSymbol:tx.fromTokenInfo.token_symbol,
+           networkImg:tx.fromTokenInfo.network_logo,
+           amount:tx.swap.fromAmount
+        },
+        toTokenInfo:{
+          tokenSymbol:tx.toTokenInfo.token_symbol,
+          networkImg:tx.toTokenInfo.network_logo,
+          amount:tx.swap.toAmount
+       },
+       exchangeInfo:{
+        name:tx.exchangeInfo.title,
+        img:tx.exchangeInfo.logo,
+        amount:tx.swap.toAmount
+       }
+      }
+      list.push(newTx)
+      localStorage.setItem('transactions',JSON.stringify(list))
     }
     openActiveHistory(reqId:string){
       this.helper.activeHistoryReqId.next(reqId)

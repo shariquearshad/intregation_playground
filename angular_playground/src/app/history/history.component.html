@@ -1,93 +1,209 @@
 <div *ngIf="loading" class="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-<div *ngIf="status"  class="bg-[#1c1e23] text-white p-6 rounded-xl w-full max-w-2xl mx-auto space-y-6">
-    <!-- Heading -->
-    <div class="text-center">
-      <h2 class="text-sm text-yellow-400 font-semibold uppercase">Send Tokens to Initiate the Swap</h2>
-      <p class="text-xs text-gray-400 mt-1">
-        After sending tokens you may close this window & proceed with other swaps.
-        You can check status anytime using this <a href="#" class="text-yellow-400 underline">link</a> or via history menu.
-      </p>
+<div *ngIf="!loading && !showList">
+    <div class=" text-center my-4 font-weight:900 text-yellow-400">
+        Transaction Details
     </div>
-  
-    <!-- Route Info -->
-    <div class="bg-gradient-to-r from-[#2b2f36] to-[#3a3f47] p-4 rounded-xl flex items-center justify-between">
-      <div class="flex items-center space-x-2">
-        <img [src]="status.fromTokenInfo.network_logo" class="w-6 h-6" />
-        <img [src]="status.toTokenInfo.network_logo" class="w-6 h-6" />
-        <span class="text-sm font-medium">{{status.fromTokenInfo.token_symbol}} &gt; {{status.toTokenInfo.token_symbol}}</span>
-      </div>
-      <div class="flex items-center space-x-2">
-        <span class="text-xs font-medium text-gray-300">VIA</span>
-        <div class="w-7 h-7 rounded-full bg-black flex items-center justify-center">
-          <img [src]="status.exchangeInfo.logo" class="w-4 h-4" />
+    <div class="bg-gradient-to-r from-[#2b2f36] to-[#3a3f47] p-4 rounded-xl my-4 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <img [src]="status.fromTokenInfo.network_logo" class="w-6 h-6" />
+          <img [src]="status.toTokenInfo.network_logo" class="w-6 h-6" />
+          <span class="text-sm font-medium">{{status.fromTokenInfo.token_symbol}} &gt; {{status.toTokenInfo.token_symbol}}</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <span class="text-xs font-medium text-gray-300">VIA</span>
+          <div class="w-7 h-7 rounded-full bg-black flex items-center justify-center">
+            <img [src]="status.exchangeInfo.logo" class="w-4 h-4" />
+          </div>
         </div>
       </div>
-    </div>
-  
-    <!-- Swap Details -->
-    <div class="grid grid-cols-2 gap-4 text-sm">
-      <div>
-        <p class="text-gray-400">You Send</p>
-        <p class="font-semibold text-white">{{status.latestQuote.fromAmount}} {{status.fromTokenInfo.token_symbol}}</p>
-      </div>
-      <div>
-        <p class="text-gray-400">Network</p>
-        <p class="font-semibold text-white">{{status.fromTokenInfo.network_name}}</p>
-      </div>
-      <div class="col-span-2">
-        <p class="text-gray-400">Deposit Address</p>
-        <div class="flex items-center justify-between bg-[#2b2f36] rounded-md px-3 py-2 mt-1">
-          <span class="text-sm font-mono truncate">{{status.depositAddress}}</span>
-          <button class="text-gray-400 hover:text-yellow-400">
-            📋
-          </button>
+    <div *ngIf="status.exchangeInfo.walletLess"  class=" text-white p-6 rounded-xl w-full max-w-2xl mx-auto space-y-6">
+        <!-- Heading -->
+        <div class="text-center">
+          <h2 class="text-sm text-yellow-400 font-semibold uppercase">Send Tokens to Initiate the Swap</h2>
+          <p class="text-xs text-gray-400 mt-1">
+            After sending tokens you may close this window & proceed with other swaps.
+            You can check status anytime using this <a href="#" class="text-yellow-400 underline">link</a> or via history menu.
+          </p>
         </div>
+      
+        <!-- Route Info -->
+        
+      
+        <!-- Swap Details -->
+        <div class="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <p class="text-gray-400">You Send</p>
+            <p class="font-semibold text-white">{{status.latestQuote.fromAmount}} {{status.fromTokenInfo.token_symbol}}</p>
+          </div>
+          <div>
+            <p class="text-gray-400">Network</p>
+            <p class="font-semibold text-white">{{status.fromTokenInfo.network_name}}</p>
+          </div>
+          <div class="col-span-2">
+            <p class="text-gray-400">Deposit Address</p>
+            <div class="flex items-center justify-between bg-[#2b2f36] rounded-md px-3 py-2 mt-1">
+              <span class="text-sm font-mono truncate">{{status.depositAddress}}</span>
+              <button class="text-gray-400 hover:text-yellow-400">
+                📋
+              </button>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Progress Bar -->
+        <div class="flex justify-between items-center border-t border-gray-700 pt-4">
+          <div class="flex-1 text-center">
+            <p class="text-xs text-yellow-400 font-semibold">Status</p>
+          </div>
+          <div class="flex-1 text-center">
+            <p class="text-xs text-yellow-400 font-semibold">Processing</p>
+          </div>
+          <div class="flex-1 text-center">
+            <p class="text-xs text-yellow-400 font-semibold">{{gettxStatus()}}</p>
+          </div>
+        </div>
+      
+        <!-- Transaction Details -->
+        <div class="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <p class="text-gray-400">You Get (Est.)</p>
+            <p class="text-white font-semibold">{{status.latestQuote.toAmount|number:"1.0-3"}} {{status.fromTokenInfo.token_symbol}}</p>
+          </div>
+          <div>
+            <p class="text-gray-400">TX ID</p>
+            <p class="text-white font-semibold">{{status.txId}}</p>
+          </div>
+          <div>
+            <p class="text-gray-400">Recipient Address</p>
+            <p class="text-white font-mono truncate">{{status.destinationAddress}}</p>
+          </div>
+          <div>
+            <p class="text-gray-400">Destination Contract</p>
+            <p class="text-white">{{status.toTokenInfo.is_network_token? "Network Token" : status.toTokenInfo.contract_address}}</p>
+          </div>
+        </div>
+      
+        <!-- Notes -->
+        <div class="bg-[#2b2f36] text-gray-400 text-xs border border-yellow-600 rounded-md p-3 space-y-1">
+          <p>• Sending a different token or incorrect network may lead to loss of funds.</p>
+          <p>• If you sent the coins and the status did not change immediately, don’t worry. Our system needs a few minutes to detect the transaction.</p>
+        </div>
+      
+        <!-- Footer -->
+       
       </div>
-    </div>
-  
-    <!-- Progress Bar -->
-    <div class="flex justify-between items-center border-t border-gray-700 pt-4">
-      <div class="flex-1 text-center">
-        <p class="text-xs text-yellow-400 font-semibold">Status</p>
+      <div *ngIf="!status.exchangeInfo.walletLess">
+        <div class="bg-[#1e293b] text-gray-300 p-4 rounded-xl  space-y-3 w-full max-w-md mx-auto">
+            <div class="flex justify-between">
+              <span class="text-sm">TxId</span>
+              <span class="text-white font-semibold">{{ status.txId }}</span>
+            </div>
+          
+            <div class="flex justify-between">
+              <span class="text-sm">You {{ ['transaction_pending', 'pending'].includes(status.subState) ? 'PAY' : 'PAID' }}</span>
+              <span class="text-white font-semibold">{{ status.originTokenAmount }} {{ status.fromTokenInfo.token_symbol }}</span>
+            </div>
+          
+            <div class="flex justify-between">
+              <span class="text-sm">
+                {{ status.subState == 'withdraw_success' ? 'YOU GOT' : 'YOU GET (EST.)' }}
+              </span>
+              <span class="text-white font-semibold">{{ status.expectedTokenAmount }} {{ status.toTokenInfo.token_symbol }}</span>
+            </div>
+          
+            <div class="flex justify-between">
+              <span class="text-sm">Exchange</span>
+              <span class="text-white font-semibold">{{ status.exchangeInfo.title }}</span>
+            </div>
+          
+            <div class="flex justify-between">
+              <span class="text-sm">Date</span>
+              <span class="text-white font-semibold">{{ status.transactionTime | date: 'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+          
+            <div class="flex justify-between">
+              <span class="text-sm">Router Address</span>
+              <span class="text-white font-mono text-sm">
+                {{ status.routerAddress.substring(0,6)+'.....'+status.routerAddress.substring(status.routerAddress.length-6) }}
+              </span>
+            </div>
+          
+            <div class="flex justify-between">
+              <span class="text-sm">Recipient Address</span>
+              <span class="text-white font-mono text-sm">
+                {{ status.destinationAddress.substring(0,6)+'.....'+status.destinationAddress.substring(status.destinationAddress.length-6) }}
+              </span>
+            </div>
+          
+            <div class="flex justify-between">
+              <span class="text-sm">Initial Tx</span>
+              <span class="text-white font-semibold">{{ status.txId }}</span>
+            </div>
+          
+            <div class="flex justify-between">
+              <span class="text-sm">Final Tx</span>
+              <span class="text-white font-semibold">{{ status.txId }}</span>
+            </div>
+          
+            <div class="flex justify-between">
+              <span class="text-sm">Status</span>
+              <span class="text-green-500 font-semibold capitalize">{{ status.status }}</span>
+            </div>
+          </div>
+          
+    
+    
       </div>
-      <div class="flex-1 text-center">
-        <p class="text-xs text-yellow-400 font-semibold">Processing</p>
+      <div class="text-center text-xs text-gray-500">
+        <p class="mt-2">By doing this swap you accept our <a href="#" class="text-yellow-400 underline">Terms of Use</a> & <a href="#" class="text-yellow-400 underline">Privacy Policy</a></p>
+        <p class="mt-1">Any issue with the swap? <a href="#" class="text-yellow-400 underline">Contact Support</a></p>
       </div>
-      <div class="flex-1 text-center">
-        <p class="text-xs text-yellow-400 font-semibold">{{gettxStatus()}}</p>
+
+</div>
+<div *ngIf="!loading && showList">
+    <div class=" text-white p-4 space-y-4 rounded-xl">
+
+        <!-- Header Row -->
+        <div class="grid grid-cols-3 text-gray-400 uppercase  text-sm pb-2 border-b border-gray-700" *ngIf="txList.length > 0">
+          <div>From</div>
+          <div>To (Est.)</div>
+          
+          <div>Via</div>
+        </div>
+      
+        <!-- Transaction Rows -->
+        <div *ngIf="txList.length > 0; else noTransactions">
+          <div (click)="showMore(i)" *ngFor="let tx  of txList;let i = index" class="grid grid-cols-3 cu my-2 cursor-pointer items-center bg-[#1f1f1f] rounded-lg px-4 py-3 gap-4">
+            <div class="flex items-center gap-2">
+              <img [src]="tx.fromTokenInfo.networkImg" class="w-6 h-6" />
+              <span class="font-medium">{{ tx.fromTokenInfo.amount |number:'1.0-4' }} {{ tx.fromTokenInfo.tokenSymbol }}</span>
+            </div>
+      
+            <div class="flex items-center gap-2">
+              <img [src]="tx.toTokenInfo.networkImg" class="w-6 h-6" />
+              <span class="font-medium">{{ tx.toTokenInfo.amount |number:'1.0-4'}} {{ tx.toTokenInfo.tokenSymbol }}</span>
+            </div>
+      
+           
+      
+            <div>
+              <img [src]="tx.exchangeInfo.img" class="w-6 h-6 mx-auto" />
+            </div>
+          </div>
+        </div>
+      
+        <!-- No Transactions State -->
+        <ng-template #noTransactions>
+          <div class="text-center py-12 text-gray-400 text-sm">
+            No transactions yet.
+          </div>
+        </ng-template>
+      
       </div>
-    </div>
-  
-    <!-- Transaction Details -->
-    <div class="grid grid-cols-2 gap-4 text-sm">
-      <div>
-        <p class="text-gray-400">You Get (Est.)</p>
-        <p class="text-white font-semibold">{{status.latestQuote.toAmount|number:"1.0-3"}} {{status.fromTokenInfo.token_symbol}}</p>
-      </div>
-      <div>
-        <p class="text-gray-400">TX ID</p>
-        <p class="text-white font-semibold">{{status.txId}}</p>
-      </div>
-      <div>
-        <p class="text-gray-400">Recipient Address</p>
-        <p class="text-white font-mono truncate">{{status.destinationAddress}}</p>
-      </div>
-      <div>
-        <p class="text-gray-400">Destination Contract</p>
-        <p class="text-white">{{status.toTokenInfo.is_network_token? "Network Token" : status.toTokenInfo.contract_address}}</p>
-      </div>
-    </div>
-  
-    <!-- Notes -->
-    <div class="bg-[#2b2f36] text-gray-400 text-xs border border-yellow-600 rounded-md p-3 space-y-1">
-      <p>• Sending a different token or incorrect network may lead to loss of funds.</p>
-      <p>• If you sent the coins and the status did not change immediately, don’t worry. Our system needs a few minutes to detect the transaction.</p>
-    </div>
-  
-    <!-- Footer -->
-    <div class="text-center text-xs text-gray-500">
-      <p class="mt-2">By doing this swap you accept our <a href="#" class="text-yellow-400 underline">Terms of Use</a> & <a href="#" class="text-yellow-400 underline">Privacy Policy</a></p>
-      <p class="mt-1">Any issue with the swap? <a href="#" class="text-yellow-400 underline">Contact Support</a></p>
-    </div>
-  </div>
+      
+      
+
+
+</div>
+
   

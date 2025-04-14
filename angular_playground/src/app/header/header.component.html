@@ -8,7 +8,8 @@
     <div class="hidden md:flex items-center space-x-6">
       <div class=" flex items-center" *ngIf="activeWallet">
         <img class=" rounded-full h-[30px]  left-4" [src]="currentNetwork.logo" />
-        <div class="mx-4"> {{activeWallet.slice(0,5)}}....{{activeWallet.slice(activeWallet.length - 5,activeWallet.length)}}</div>
+        <div class="mx-4"> {{activeWallet.slice(0,5)}}....{{activeWallet.slice(activeWallet.length -
+          5,activeWallet.length)}}</div>
         <span (click)="copy()" class=" tooltip" data-tip=" Click here Copy" id="default-icon">
           <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
             viewBox="0 0 18 20">
@@ -16,7 +17,7 @@
               d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z" />
           </svg>
         </span>
-        <span  class="tooltip" data-tip="Copied" id="success-icon" class="hidden">
+        <span class="tooltip" data-tip="Copied" id="success-icon" class="hidden">
           <svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -27,7 +28,32 @@
 
 
       <button (click)="activeWallet?disconnect():updateWalletPopup()"
-        class="bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors">{{activeWallet==''?'Connect Wallet':'Disconnect Wallet'}}</button>
+        class="bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors">{{activeWallet==''?'Connect Wallet':'Disconnect Wallet'}}
+      </button>
+      <div class="flex items-center space-x-4 text-yellow-400">
+        <!-- History Icon -->
+        <button (click)="openHistory()" class="hover:text-yellow-400 transition-colors" title="History">
+          <svg xmlns="http://www.w3.org/2000/svg" height="21px" viewBox="0 0 20 21" width="20px" fill="currentColor" class="w-5 h-5 text-yellow-400">
+            <g fill="none" fill-rule="evenodd">
+              <g fill="currentColor" opacity="0.9">
+                <g>
+                  <path d="M10.5,0 C7,0 3.9,1.9 2.3,4.8 L0,2.5 L0,9 L6.5,9 L3.7,6.2 C5,3.7 7.5,2 10.5,2 C14.6,2 18,5.4 18,9.5 C18,13.6 14.6,17 10.5,17 C7.2,17 4.5,14.9 3.4,12 L1.3,12 C2.4,16 6.1,19 10.5,19 C15.8,19 20,14.7 20,9.5 C20,4.3 15.7,0 10.5,0 Z M9,5 L9,10.1 L13.7,12.9 L14.5,11.6 L10.5,9.2 L10.5,5 L9,5 Z"/>
+                </g>
+              </g>
+            </g>
+          </svg>
+        </button>
+        
+        
+        <!-- Settings Icon -->
+        <button (click)="openSettings()" class="hover:text-yellow-400 transition-colors" title="Settings">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" fill="currentColor" class="w-5 h-5 text-yellow-400">
+            <path d="M47.16,21.221l-5.91-0.966c-0.346-1.186-0.819-2.326-1.411-3.405l3.45-4.917c0.279-0.397,0.231-0.938-0.112-1.282 l-3.889-3.887c-0.347-0.346-0.893-0.391-1.291-0.104l-4.843,3.481c-1.089-0.602-2.239-1.08-3.432-1.427l-1.031-5.886 C28.607,2.35,28.192,2,27.706,2h-5.5c-0.49,0-0.908,0.355-0.987,0.839l-0.956,5.854c-1.2,0.345-2.352,0.818-3.437,1.412l-4.83-3.45 c-0.399-0.285-0.942-0.239-1.289,0.106L6.82,10.648c-0.343,0.343-0.391,0.883-0.112,1.28l3.399,4.863 c-0.605,1.095-1.087,2.254-1.438,3.46l-5.831,0.971c-0.482,0.08-0.836,0.498-0.836,0.986v5.5c0,0.485,0.348,0.9,0.825,0.985 l5.831,1.034c0.349,1.203,0.831,2.362,1.438,3.46l-3.441,4.813c-0.284,0.397-0.239,0.942,0.106,1.289l3.888,3.891 c0.343,0.343,0.884,0.391,1.281,0.112l4.87-3.411c1.093,0.601,2.248,1.078,3.445,1.424l0.976,5.861C21.3,47.647,21.717,48,22.206,48 h5.5c0.485,0,0.9-0.348,0.984-0.825l1.045-5.89c1.199-0.353,2.348-0.833,3.43-1.435l4.905,3.441 c0.398,0.281,0.938,0.232,1.282-0.111l3.888-3.891c0.346-0.347,0.391-0.894,0.104-1.292l-3.498-4.857 c0.593-1.08,1.064-2.222,1.407-3.408l5.918-1.039c0.479-0.084,0.827-0.5,0.827-0.985v-5.5C47.999,21.718,47.644,21.3,47.16,21.221z M25,32c-3.866,0-7-3.134-7-7c0-3.866,3.134-7,7-7s7,3.134,7,7C32,28.866,28.866,32,25,32z"></path>
+          </svg>
+        </button>
+        
+        
+      </div>
     </div>
   </nav>
 </header>
