@@ -1,67 +1,72 @@
-<div >
-   
-	<div class="success">
-        <div class=" text-sm modal-inner-content" >
-              
-             <div class="wallet-body">
-                <div class="networks col-4 col-md-5">
-                    <div >
-                        <input
-                        #coinSeach
-                        class=" bg-gray-600 px-4 py-10 h-[35px] rounded-lg w-full " 
-                        placeholder=" NETWORK"
-                        type="text"
-                        id="networkSearchBox"
-                        [(ngModel)]="networkSearchQuery"
-                        />
-                    </div>
-                   
-                   <div class="  overflow-y-auto ">
-                        <div class="network " *ngFor="let network of networks| filter:'name':networkSearchQuery " (click)="selectNetwork(network)">
-                            <div container="body" placement="bottom"  class="p-2 bg-gray-700 my-4 rounded-lg flex h-8 items-center hover:bg-gray-600" [ngClass]="{' border-2 border-yellow-500':selectedNetwork.id===network.id
-                               
-                            }">
-                                <img [src]="network.logo" onerror="this.onerror=null; this.src='./img/not-allowed-32.png'" class="logo network-logo">
-                                <div class=" mx-4"> {{network.shorthand | uppercase}} </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="wallets ml-4">
-                    <h3 class="heading">
-                        Select A Wallet
-                    </h3>
-                   
-                   
-                    <div class="network-name  border-yellow-500">
-                        {{ selectedNetwork.name | uppercase }}
-                        <img container="body"  [src]="selectedNetwork.logo" onerror="this.onerror=null; this.src='./img/not-allowed-32.png'" class="logo">
+<div class="bg-[#12151c] text-white rounded-xl max-w-4xl mx-auto p-6">
 
-                    </div>
-                    <div class="wallets-container">
-                        <div class="bg-gray-600 rounded-lg" *ngFor="let wallet of wallets"  >
-                            <div  class="wallet" [ngClass]="{ 'err':!!wallet.error }"  (click)="!wallet.error && selectWallet(wallet.keyword)" [ngClass]="{'try-walletless': wallet.keyword == 'Walletless'}">
-                                <div class="icon" *ngIf="wallet.keyword != 'Walletless'">
-                                    <img class="logo" [src]="wallet.logo" onerror="this.onerror=null; this.src='./img/not-allowed-32.png'" >
-                                </div>
-                            <div class="title">
-                                {{wallet.title | uppercase}}
-                                <span *ngIf="!!wallet.error" class="error-icon">
-                                    <i class="fa fa-warning"></i> 
-                                </span> 
-                            </div>
-                           
-                        </div>
-                            
-                        </div>
-                        
-                      
-                       
-                    </div>
-                   
-                </div>
-            </div> 
-			
-		</div>
-	</div>
-</div>
+    <!-- Modal Title -->
+    <h2 class="text-lg font-semibold mb-4">Select A Wallet</h2>
+  
+    <!-- Main Section: Networks + Wallets -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  
+      <!-- NETWORK LIST -->
+      <div>
+        <input
+          type="text"
+          [(ngModel)]="networkSearchQuery"
+          placeholder="Search Network"
+          class="w-full h-10 px-4 rounded-md bg-gray-700 text-white placeholder-gray-400 mb-4 outline-none focus:ring-2 focus:ring-yellow-400"
+        />
+  
+        <div class="space-y-2 max-h-96 overflow-y-auto pr-1">
+          <div
+            *ngFor="let network of networks | filter: 'name': networkSearchQuery"
+            (click)="selectNetwork(network)"
+            class="flex items-center p-2 rounded-md cursor-pointer transition-colors hover:bg-gray-600"
+            [ngClass]="{ 'border-2 border-yellow-500': selectedNetwork.id === network.id }"
+          >
+            <img
+              [src]="network.logo"
+              class="w-6 h-6"
+            />
+            <span class="ml-3 font-medium text-sm uppercase">{{ network.shorthand }}</span>
+          </div>
+        </div>
+      </div>
+  
+      <!-- WALLET OPTIONS -->
+      <div>
+        <div class="mb-3 text-sm text-gray-400">BASE CHAIN</div>
+        <div class="flex items-center gap-2 mb-4">
+          <img
+            [src]="selectedNetwork.logo"
+            class="w-6 h-6"
+          />
+          <span class="uppercase font-semibold">{{ selectedNetwork.name }}</span>
+        </div>
+  
+        <div class="space-y-3">
+          <div
+            *ngFor="let wallet of wallets"
+            (click)="!wallet.error && selectWallet(wallet.keyword)"
+            class="bg-gray-700 rounded-md px-4 py-3 flex items-center justify-between cursor-pointer transition hover:bg-gray-600"
+            [ngClass]="{
+              'opacity-60 cursor-not-allowed': wallet.error,
+              'border border-yellow-500': wallet.keyword === 'Walletless'
+            }"
+          >
+            <div class="flex items-center gap-3">
+              <img
+                *ngIf="wallet.keyword !== 'Walletless'"
+                [src]="wallet.logo"
+                class="w-6 h-6"
+              />
+              <span class="uppercase font-medium text-sm">{{ wallet.title }}</span>
+            </div>
+  
+            <span *ngIf="wallet.error" class="text-red-400 text-xs">
+              <i class="fa fa-warning mr-1"></i>Error
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

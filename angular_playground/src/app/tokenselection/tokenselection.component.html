@@ -1,166 +1,81 @@
-<div class="modal-body bg-1 text-dark-white noselect">
-    <div  class="close-btn close" data-dismiss="modal" aria-label="Close" (click)="exit()">
-        <span aria-hidden="true">&times;</span>
-    </div>
-    <div class="content-wrapper" *ngIf="!importConfirmation">
-        <div class="modal-inner-content">
-            <div class="token-body">
-                <div class="networks col-4 col-md-5">
+<div class="bg-[#12151c] text-white rounded-xl max-w-5xl mx-auto p-6" *ngIf="!importConfirmation">
 
-                <div *ngIf="networkLoading" class="network-container">
-                    <div class="spinner-border spinner-border-lg spinner-properties op-p5 small-spinner"></div>
-                </div>
-    
-                    <div >
-                        <input
-                        placeholder="Search  Network"
-                        type="search"
-                        class=" bg-gray-600 px-4 py-4 h-[35px] rounded-lg w-full " 
-                        id="networkSearchBox"
-                        autocomplete="off"
-                        autocorrect="off"
-                        [(ngModel)]="searchQueryNetwork"
-                    />
-                    </div>
-                    <!-- <div class="networkSearchbox-parent d-md-none no-padding-x">
-                        <input
-                        class="no-padding mobile"
-                        placeholder="&#xF002; NETWORK"
-                        type="text"
-                        id="networkSearchBox"
-                        [(ngModel)]="searchQueryNetwork"
-                        />
-                    </div> -->
-                    
-                    <!-- <div  class="network-filters">
-                        <ng-container  *ngFor="let f of networkFilters">
-                            <div class="filter d-block d-md-none" [ngClass]="{ 'active': activeFilter.name===f.name }"
-                            (click)="setActiveFilter(f);$event.stopPropagation();">{{f.shortname}}</div>
-                            <div class="filter d-none d-md-block" [ngClass]="{ 'active': activeFilter.name===f.name }"
-                                (click)="setActiveFilter(f);$event.stopPropagation();">{{f.name}}</div>
-                        </ng-container>
-                    </div> -->
-
-                    <div class="network-box row no-margin-x">
-                        <ng-container class="network" *ngFor="let network of allNetworks | multiColSearch:['name','symbol','shorthand']:searchQueryNetwork" >
-                          
-                            <div (click)="networkSelected(network,false)"  container="body" placement="bottom"  class="p-2 bg-gray-700 my-4 rounded-lg flex h-8 items-center hover:bg-gray-600" [ngClass]="{' border-2 border-yellow-500':selectedNetwork.id===network.id
-                               
-                            }">
-                                <img [src]="network.logo" onerror="this.onerror=null; this.src='./img/not-allowed-32.png'" class="logo network-logo">
-                                <div class=" mx-4"> {{network.shorthand | uppercase}} </div>
-                            </div>
-                            
-                        </ng-container>
-                    </div>
-                    
-                </div>
-
-                <div class="tokens col-8 col-md-7">
-                    <h3 class="heading">SWAPPING {{ type | uppercase }}</h3>
-                    <div class="searchtoken">
-                        <input
-                            [attr.name]="'token-input-box-'+inputNumber"
-                            #coinSeach
-                            placeholder="TOKEN OR ADDRESS"
-                            type="search"
-                            id="tokenSearchBox"
-                            name="tokenoraddress"
-                            autocomplete="off"
-                            autocorrect="off"
-                            [(ngModel)]="coinSearchQuery"
-                            (input)="filterDeb(coinSeach.value)"
-                        />
-                    </div>
-                    <div class="commonTokens row no-margin">
-                        <ng-container>
-                            
-                        </ng-container>
-                    </div>
-        
-                    <div class="token-box-wrapper">
-                        <div class="pagination-loader" *ngIf="!loading && paginationLoad">
-                            <span class=" spinner-border spinner-border-lg spinner-properties op-p5 " ></span>
-                        </div>
-                        <div class="tokenBox" (scroll)="onScroll($event)">
-                            <ng-container *ngIf="!loading">
-                                <ng-container *ngFor="let coin of filteredCoins" class=" bg-gray-600">
-                                    <div
-                                        class="flex p-2 bg-gray-700 m-2 pointer"
-                                        (click)="tokenSelected(coin)"
-                                    >
-                                    <img
-                                    [src]="coin['icon_url']"
-                                    onerror="this.onerror=null; this.src='./img/not-allowed-32.png'"
-                                    class="logo"
-                                />
-                                    <div class=" mx-4 description">
-                                        {{ coin["token_name"] }}
-                                    </div> 
-
-                                      
-                                    </div>
-                                </ng-container>
-                            </ng-container>
-                            <div class="load-wallet text-center" *ngIf="!!loading ">
-                                <span
-                                    class="
-                                        spinner-border spinner-border-lg spinner-properties
-                                        op-p5
-                                    "
-                                ></span>
-                            </div>
-                            <ng-container *ngIf="filteredCoins.length===0 &&!loading ">
-                                <div class="token row text-center no-gutters pointer" >
-                                    <div class="coin" >
-                                        <div class="token-symbol title">
-
-                                           
-                                        </div>
-                                        <div style="width: auto;">
-                                           
-                                        </div>
-                                    </div>
-                                </div>
-                            </ng-container>
-                            <ng-container *ngIf="filteredCoins.length===0 && !loading  && coinNotFound">
-                                <div class="error-msg" >
-                                    NOT FOUND
-                                </div>
-                            </ng-container>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+      
+      <!-- NETWORKS -->
+      <div class="md:col-span-2">
+        <input
+          type="search"
+          placeholder="Search Network"
+          class="w-full h-10 px-4 rounded-md bg-gray-700 text-white placeholder-gray-400 mb-4 outline-none focus:ring-2 focus:ring-yellow-400"
+          autocomplete="off"
+          autocorrect="off"
+          [(ngModel)]="searchQueryNetwork"
+        />
+  
+        <div *ngIf="networkLoading" class="flex justify-center items-center py-4">
+          <div class="spinner-border spinner-border-lg spinner-properties op-p5 small-spinner"></div>
         </div>
-    </div>
-    <div class="content-wrapper" *ngIf="importConfirmation">
-        <div class="modal-inner-content custom-import-confirm">
-            <div class="confirmationBox">
-                <div class="tokenDetails">
-                    <div class="token-symbol">
-
-                        <div class="token-symbol title">
-
-                            
-                        </div>
-                        <div>
-
-                            
-                        </div>
-                    </div>
-                    <div class="address">
-                       
-                       
-                    </div>
-                </div>
-                <div class="description">
-                    <h6 class="warning"><i class="fa fa-warning"></i> Trade at your own risk!</h6>  
-                    Tokens that are not whitelisted could be fake and may not be compatible with our partner exchanges. By importing this custom token, you acknowledge the risks & willing to lose 100% by trading this token.
-                </div>
-            </div>
-            
+  
+        <div class="space-y-2 overflow-y-auto pr-1 h-[400px]">
+          <div
+            *ngFor="let network of allNetworks | multiColSearch:['name','symbol','shorthand']:searchQueryNetwork"
+            (click)="networkSelected(network, false)"
+            class="flex items-center p-2 rounded-md cursor-pointer transition-colors hover:bg-gray-600"
+            [ngClass]="{ 'border-2 border-yellow-500': selectedNetwork.id === network.id }"
+          >
+            <img
+              [src]="network.logo"
+              onerror="this.onerror=null; this.src='./img/not-allowed-32.png'"
+              class="w-6 h-6"
+            />
+            <span class="ml-3 text-sm uppercase font-medium">{{ network.shorthand }}</span>
+          </div>
         </div>
+      </div>
+  
+      <!-- TOKENS -->
+      <div class="md:col-span-3">
+        <h3 class="text-lg font-semibold mb-2">SWAPPING {{ type | uppercase }}</h3>
+  
+        <input
+          type="search"
+          placeholder="TOKEN OR ADDRESS"
+          class="w-full h-10 px-4 rounded-md bg-gray-700 text-white placeholder-gray-400 mb-4 outline-none focus:ring-2 focus:ring-yellow-400"
+          autocomplete="off"
+          autocorrect="off"
+          [(ngModel)]="coinSearchQuery"
+          (input)="filterDeb(coinSeach.value)"
+          #coinSeach
+        />
+  
+        <div class="overflow-y-auto h-[400px] space-y-2" (scroll)="onScroll($event)">
+          <div
+            *ngFor="let coin of filteredCoins"
+            class="flex items-center justify-between p-3 rounded-md bg-gray-700 cursor-pointer hover:bg-gray-600 transition"
+            (click)="tokenSelected(coin)"
+          >
+            <div class="flex items-center gap-3">
+              <img
+                [src]="coin['icon_url']"
+                onerror="this.onerror=null; this.src='./img/not-allowed-32.png'"
+                class="w-6 h-6"
+              />
+              <div class="text-sm font-medium">{{ coin["token_name"] }}</div>
+            </div>
+          </div>
+  
+          <!-- Loading -->
+          <div *ngIf="loading" class="flex justify-center py-4">
+            <span class="spinner-border spinner-border-lg spinner-properties op-p5"></span>
+          </div>
+  
+          <!-- Not Found -->
+          <div *ngIf="!loading && filteredCoins.length === 0 && coinNotFound" class="text-center text-sm text-red-400 py-4">
+            NOT FOUND
+          </div>
+        </div>
+      </div>
     </div>
-</div>
-
+  </div>
+  
