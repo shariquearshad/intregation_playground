@@ -42,7 +42,7 @@ export class SwapSectionComponent  implements OnInit,OnChanges{
      this.helper.currentChainId.subscribe((val:any)=>{
       this.getButtonName()
      })
-     this.helper.activeQuotation.subscribe((val:any)=>this.activeQuote=val)
+     this.helper.activeQuotation.subscribe((val:any)=>{this.activeQuote=val; this.getButtonName()})
      this.helper.currentCombination.subscribe(async (val:any)=>{
       this.combination=val;
       this.getButtonName()

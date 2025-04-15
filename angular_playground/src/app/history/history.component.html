@@ -53,8 +53,8 @@
           <div class="col-span-2">
             <p class="text-gray-400">Deposit Address</p>
             <div class="flex items-center justify-between bg-[#2b2f36] rounded-md px-3 py-2 mt-1">
-              <span class="text-sm font-mono truncate">{{status.depositAddress}}</span>
-              <button class="text-gray-400 hover:text-yellow-400">
+              <span class="text-sm  font-mono truncate text-[10px]">{{status.depositAddress}}</span>
+              <button (click)="copy(status.depositAddress)" class=" cursor-pointer tooltip text-gray-400 hover:text-yellow-400">
                 📋
               </button>
             </div>
@@ -84,13 +84,18 @@
             <p class="text-gray-400">TX ID</p>
             <p class="text-white font-semibold">{{status.txId}}</p>
           </div>
-          <div>
+          <div >
             <p class="text-gray-400">Recipient Address</p>
-            <p class="text-white font-mono truncate">{{status.destinationAddress}}</p>
+            <p class="text-white font-mono truncate">{{trimAdd(status.destinationAddress)}}  <span (click)="copy(status.destinationAddress)" class=" tooltip cursor-pointer text-gray-400 hover:text-yellow-400">
+              📋
+            </span></p>
+           
           </div>
           <div>
             <p class="text-gray-400">Destination Contract</p>
-            <p class="text-white">{{status.toTokenInfo.is_network_token? "Network Token" : status.toTokenInfo.contract_address}}</p>
+            <p class="text-white">{{status.toTokenInfo.is_network_token? "Network Token" : trimAdd(status.toTokenInfo.contract_address)}} <span (click)="copy(status.toTokenInfo.is_network_token?'':status.toTokenInfo.contract_address)" class=" cursor-pointer tooltip text-gray-400 hover:text-yellow-400">
+              📋
+            </span></p>
           </div>
         </div>
       

@@ -147,6 +147,7 @@ swapApiRes:any={}
         if(this.swapApiRes.addressMemo || this.swapApiRes.swap.tx?.memo){
           this.memo = this.swapApiRes.addressMemo || this.swapApiRes.swap.tx?.memo;
         }
+        this.initiateWalletSign();
        
         
     }catch(err:any){
@@ -156,6 +157,9 @@ swapApiRes:any={}
      
     }
     async initiateWalletSign(){
+      try{
+
+      
       this.message="Confirm Transaction"
       const depositAddress = this.swapApiRes.swap.depositAddress;
       const baseToken = this.swapApiRes.fromTokenInfo;
@@ -167,9 +171,13 @@ swapApiRes:any={}
       this.saveToLocal(this.swapApiRes)
      
       this.openActiveHistory(this.swapApiRes.requestId); 
+    }catch(err:any){
+       console.log(err)
+      this.message=err.message||""  
+    }
     }
     getRouterAdd(){
-      if(this.swapApiRes.swap.depositAddress){
+      if(this.swapApiRes?.swap?.depositAddress){
         const depositAddress = this.swapApiRes.swap.depositAddress;
         return depositAddress.slice(0,5)+"...."+depositAddress.slice(depositAddress.length - 5,depositAddress.length);
       }

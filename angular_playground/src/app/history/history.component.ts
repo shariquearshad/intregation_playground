@@ -37,6 +37,7 @@ export class HistoryComponent implements OnInit {
         let local=localStorage.getItem('transactions');
         console.log("local",local)
         this.txList=JSON.parse(localStorage.getItem('transactions')||"[]")
+        this.txList.reverse();
         console.log(this.txList)
         this.showList=true;
       // this.reqId="4d67719c-b00d-4bd4-9f46-0fa8d49d59eb";
@@ -58,5 +59,12 @@ export class HistoryComponent implements OnInit {
   gettxStatus(){
     this.status.status;
   }
+  copy(item:string){
+     navigator.clipboard.writeText(item);
+  }
+  trimAdd(add:string){
+    this.helper.trimAddress(add);
+  }
+
 
 }

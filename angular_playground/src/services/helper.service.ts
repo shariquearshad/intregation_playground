@@ -115,5 +115,9 @@ export class HelperService {
       return network;
     }
   }
+  trimAddress(add:string){
+    add.slice(0,5)+"...."+add.slice(add.length - 5,add.length);
+
+  }
   
 }
