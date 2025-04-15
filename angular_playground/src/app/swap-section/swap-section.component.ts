@@ -48,9 +48,19 @@ export class SwapSectionComponent  implements OnInit,OnChanges{
   this.recipientAddress=event.target.value;
   console.log(this.recipientAddress)
  }
+ switchCombination(){
+  let comb=_.cloneDeep(this.combination)
+  comb.sourceToken=this.combination.destinationToken;
+  comb.destinationToken=this.combination.sourceToken;
+  comb.sourceNetwork=this.combination.destinationNetwork;
+  comb.destinationNetwork=this.combination.sourceNetwork;
+  this.combination=comb;
+  this.changeCombination();
+  
+ }
  
   changeCombination(){
-    this.updateCombination.emit(this.combination);
+    this.helper.updateCombination(this.combination);
   }
   updateAmount(event:any){
     // console.log(event);
