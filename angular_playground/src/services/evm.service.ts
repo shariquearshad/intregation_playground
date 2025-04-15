@@ -53,7 +53,6 @@ export class EvmService {
           }
         }
       });
-  
       this.provider.on('chainChanged', async (chainId: any) => {
         chainId=`0x${(Number(chainId)).toString(16)}`;
        
@@ -217,7 +216,7 @@ export class EvmService {
       return err
     }
   }
-  public async approveSwap(token:any,spendor:string,data:any='',fromAmount:number,preswap:boolean=false){
+  public async approveSwap(token:any,spendor:string,data:any='',fromAmount:number){
     return this.evmUtils.approveSwap(token,spendor,data,this.activeWallet,this.chainId,this.web3,this.provider,fromAmount)
   }
   isNetworkSupported(nw:any){

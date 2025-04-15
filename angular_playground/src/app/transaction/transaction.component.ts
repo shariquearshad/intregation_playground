@@ -69,9 +69,11 @@ swapApiRes:any={}
       }
       if(exisitngRevoke) {
         // revoke existing
-        const revoke = await this.helper.activeWalletService.approveSwap(fromToken,props.allowanceAddress,props.tx?.approveData, 0,preswap);
+        this.message="There's already an approval, but it's not enough for the swap. Please set the approval to 0 first, then try again."
+        return;
+        // const revoke = await this.helper.activeWalletService.approveSwap(fromToken,props.allowanceAddress,props.tx?.approveData, 0,preswap);
       }
-      const approval = await this.helper.activeWalletService.approveSwap(fromToken,props.allowanceAddress,props.tx?.approveData,fromAmount,preswap);
+      const approval = await this.helper.activeWalletService.approveSwap(fromToken,props.allowanceAddress,props.tx?.approveData,fromAmount);
       this.message="Aalidating approval"
       await this.checkApproval({contractAddress:this.quote.fromTokenInfo.contract_address,spendor:this.quote.allowanceAddress,activeWallet:this.helper.activeWalletService.activeWallet,tokenDecimal:this.quote.fromTokenInfo?.token_decimals,isNative:!!this.quote.fromTokenInfo?.is_native_token,sourceNetwork:this.helper.activeCombination.sourceNetwork,fromAmount:this.quote.fromAmount},true,false)
       this.swapApiCall()

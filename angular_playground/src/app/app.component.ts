@@ -39,17 +39,8 @@ export class AppComponent implements OnInit  {
   }
   title = 'angular_playground';
   showWalletPopup=false;
-
-
-
-
-
   activeTab: 'buy' | 'sell' = 'buy';
   currentPrice: number = 43250.75;
-
-
-
-
   marketStats = [
     { label: '24h Volume', value: '$2.1B', change: 5.2 },
     { label: '24h High', value: '$43,750.00', change: 2.8 },
@@ -97,32 +88,11 @@ export class AppComponent implements OnInit  {
     this.helper.allConfig=configs;
     this.combination=this.helper.setDefaultCoin(coins);
     console.log(this.combination);
-    await this.getQuotation()
-    ;
+    await this.getQuotation();
     this.loading=false;
     console.log(configs);
     console.log(coins);
   }
-
-
-
-  setActiveTab(tab: 'buy' | 'sell') {
-    this.activeTab = tab;
-  }
-
-  calculateTotal(){
-    // const amount = this.tradeForm.get('amount')?.value || 0;
-    // const price = this.tradeForm.get('price')?.value || 0;
-    // return amount * price;
-  }
-
-  executeTrade() {
-    // if (this.tradeForm.valid) {
-    //   const selectedQuote = this.quotes.find(q => q.selected);
-    //   console.log(`Executing ${this.activeTab} order with ${selectedQuote?.provider}:`, this.tradeForm.value);
-    // }
-  }
-
   public async getQuotation() {
     const{sourceNetwork,destinationNetwork,sourceToken,destinationToken,amount}=this.combination
     this.quotation=await this.api.getQuotes(sourceToken,sourceNetwork,destinationToken,destinationNetwork,amount)
