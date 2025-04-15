@@ -13,9 +13,7 @@
           [(ngModel)]="searchQueryNetwork"
         />
   
-        <div *ngIf="networkLoading" class="flex justify-center items-center py-4">
-          <div class="spinner-border spinner-border-lg spinner-properties op-p5 small-spinner"></div>
-        </div>
+        
   
         <div class="space-y-2 overflow-y-auto pr-1 h-[400px]">
           <div
@@ -48,8 +46,11 @@
           (input)="filterDeb(coinSeach.value)"
           #coinSeach
         />
+        <div *ngIf="loading" class="flex text-white justify-center py-4">
+          <span class="spinner-border spinner-border-lg spinner-properties op-p5"></span>
+        </div>
   
-        <div class="overflow-y-auto h-[400px] space-y-2" (scroll)="onScroll($event)">
+        <div *ngIf="!loading" class="overflow-y-auto h-[400px] space-y-2" (scroll)="onScroll($event)">
           <div
             *ngFor="let coin of filteredCoins"
             class="flex items-center justify-between p-3 rounded-md bg-gray-700 cursor-pointer hover:bg-gray-600 transition"
@@ -66,9 +67,7 @@
           </div>
   
           <!-- Loading -->
-          <div *ngIf="loading" class="flex justify-center py-4">
-            <span class="spinner-border spinner-border-lg spinner-properties op-p5"></span>
-          </div>
+          
   
           <!-- Not Found -->
           <div *ngIf="!loading && filteredCoins.length === 0 && coinNotFound" class="text-center text-sm text-red-400 py-4">

@@ -59,6 +59,7 @@ export class HeaderComponent implements OnInit {
     this.openWalletSelector.emit('history')
   }
   openSettings(){
+    this.openWalletSelector.emit('setting')
 
   }
 

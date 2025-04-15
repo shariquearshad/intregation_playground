@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../environment';
 import { retry, catchError, map } from 'rxjs/operators';
 import { from, of, Observable  } from 'rxjs';
+import { HelperService } from './helper.service';
 const request_types = {
   get: 'GET',
   post: 'POST'
@@ -16,10 +17,12 @@ export class ApiService {
   private API_URL=environment.API_URL;
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private helper:HelperService
+  ) { }
   public generateRequestRx2(type: string, url: string, payload: any = {},params: any = {},header:any ={}) {
 
-    let key = environment.key;
+    let key =  this.helper.apiKey?this.helper.apiKey:environment.key;
     const headers = {
       "x-api-key": key,
       'Content-Type':'application/json',

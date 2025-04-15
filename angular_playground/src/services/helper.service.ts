@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import _ from 'lodash';
 import {  BehaviorSubject, Subject } from 'rxjs';
+import { environment } from '../environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,10 @@ export class HelperService {
     destinationNetwork:{},
     amount:100
   }
-  recipientAddress="";
+  apiKey="";
+  evmReffererAddress="";// for getting comission instantly via dex
+  solanaReffererAddress=""; // for getting comission instantly via dex
+  recipientAddress=""; 
   selectedQuote:any={}
   
   public getTransactionHashSubject = new Subject();

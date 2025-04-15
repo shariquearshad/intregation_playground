@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-declare let Web3: any;
+
 import { toLower as _toLower, multiply } from 'lodash';
 
 import { multiplyNumbers, removeLeadingZeroesFromHex } from './math';
 import { toString as _toString } from 'lodash';
 import { HelperService } from '../services/helper.service';
+import Web3 from 'web3';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +19,9 @@ export class EvmUtils {
   }
   
   public checkAllowance(contract:string,spendor:string,user:string,decimals:number,isNative:boolean,chain:any){
-    return check_allowance(contract,spendor,user,decimals,isNative,new Web3(chain.chainId));
+    return check_allowance(contract,spendor,user,decimals,isNative,new Web3(chain.rpc_url));
   }
-  public async approveSwap(token:any,spendor:string,data:any='',wallet:string,chainId:string,web3:any,provider:any,fromAmount?:number,preswap?:boolean){
+  public async approveSwap(token:any,spendor:string,data:any='',wallet:string,chainId:string,web3:any,provider:any,fromAmount?:number){
     const multipliers:any = {
       '0x89':3,
       '0xa4b1':3

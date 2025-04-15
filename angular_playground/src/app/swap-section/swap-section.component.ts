@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import _ from 'lodash';
+import _, { values } from 'lodash';
 import { HelperService } from '../../services/helper.service';
 
 @Component({
@@ -30,7 +30,7 @@ export class SwapSectionComponent  implements OnInit,OnChanges{
     console.log(changes)
     console.log(this.combination)
     this.cd.detectChanges()
-
+    this.getButtonName()
   }
   @Input() combination:any
   @Output() updateCombination=new EventEmitter<any>()
@@ -38,6 +38,11 @@ export class SwapSectionComponent  implements OnInit,OnChanges{
   @Input() activeQuote:any
  ngOnInit(): void {
      console.log(this.combination)
+     this.helper.currentChainId.subscribe((val:any)=>{
+      this.getButtonName()
+     })
+     this.getButtonName()
+
  }
  updateRecipientAddress(event:any){
   this.recipientAddress=event.target.value;
@@ -86,7 +91,8 @@ export class SwapSectionComponent  implements OnInit,OnChanges{
     name= 'Connect Wallet'
 
     this.buttonName=name;
-    return this.buttonName;
+    this.cd.detectChanges();
+    // return this.buttonName;
   }
   buttonClicked(){
     switch(this.buttonName){

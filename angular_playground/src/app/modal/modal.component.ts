@@ -4,11 +4,12 @@ import { WalletselectComponent } from "../walletselect/walletselect.component";
 import { TokenselectionComponent } from "../tokenselection/tokenselection.component";
 import { TransactionComponent } from '../transaction/transaction.component';
 import { HistoryComponent } from "../history/history.component";
+import { PartnerSettingComponent } from "../partner-setting/partner-setting.component";
 
 
 @Component({
   selector: 'app-modal',
-  imports: [CommonModule,HistoryComponent, WalletselectComponent, TransactionComponent, TokenselectionComponent, HistoryComponent],
+  imports: [CommonModule, HistoryComponent,PartnerSettingComponent, WalletselectComponent, TransactionComponent, TokenselectionComponent, HistoryComponent, PartnerSettingComponent],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.scss'
 })
@@ -34,10 +35,7 @@ export class ModalComponent implements OnInit {
   stopPropagation(event: Event) {
     event.stopPropagation(); // Prevents event from bubbling up to the backdrop
   }
-  openActiveHistory(){
-    this.activeModal="activeHistory"
-
-  }
+ 
 
 
 }

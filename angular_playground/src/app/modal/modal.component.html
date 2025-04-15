@@ -19,6 +19,9 @@
      <div *ngIf="['history','activeHistory'].includes(activeModal)">
       <app-history  [modalType]="activeModal"></app-history>
 
+     </div >
+     <div  *ngIf="['setting'].includes(activeModal)">
+        <app-partner-setting (close)="close()"></app-partner-setting>
      </div>
     </div>
   </div>

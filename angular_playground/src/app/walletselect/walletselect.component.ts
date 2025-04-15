@@ -29,7 +29,7 @@ export class WalletselectComponent implements OnInit {
       title:"Evm Wallet",
       keyword:"evm",
       type:"evm",
-      logo:'./../img/Browser.png'
+      logo:'https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg'
     },
     {
       id:2,

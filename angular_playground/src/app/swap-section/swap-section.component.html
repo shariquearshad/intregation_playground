@@ -21,7 +21,7 @@
           (change)='updateAmount($event)'
           class="bg-transparent text-xl font-bold text-right w-24 focus:outline-none"
         />
-        <div class="text-sm text-gray-400">{{getTokensUsdPrice('from',combination.sourceToken,combination.amount)|number:'1.0-2'}}</div>
+        <div class="text-sm text-gray-400">{{getTokensUsdPrice('from',combination.sourceToken,combination.amount)|number:'1.0-2'}} $</div>
       </div>
     </div>
 
@@ -36,7 +36,7 @@
       </div>
       <div class="text-right">
         <div class="text-xl font-bold">{{activeQuote.toAmount|number:'1.0-4'}}</div>
-        <div class="text-sm text-gray-400">{{getTokensUsdPrice('to',combination.destinationToken,activeQuote.toAmount)|number:'1.1-2'}}</div>
+        <div class="text-sm text-gray-400">{{getTokensUsdPrice('to',combination.destinationToken,activeQuote.toAmount)|number:'1.1-2'}} $</div>
       </div>
     </div>
   </div>
@@ -75,8 +75,8 @@
   </div>
 
   <!-- Buy Button -->
-  <button (click)="buttonClicked()" class="w-full py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-semibold rounded-xl transition duration-200">
-    {{getButtonName()}}
+  <button [disabled]="recipientAddress.length===0 && buttonName==='Swap'" (click)="buttonClicked()" [ngClass]="recipientAddress.length===0 && buttonName=='Swap'?'cursor-not-allowed':'cursor-pointer'" class="w-full  py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-semibold rounded-xl transition duration-200">
+    {{this.buttonName}}
   </button>
 </div>
 

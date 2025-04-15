@@ -16,7 +16,7 @@ export class TokenselectionComponent implements OnInit {
   @Input() modalType:any
   @Output() close=new EventEmitter<boolean>();
 
-  networkLoading:boolean=false;
+  
   tokenNum=1;
   public coinSearchQuery:string = "";
   filterDeb = _.debounce(this.filterCoins,200);
@@ -49,7 +49,7 @@ export class TokenselectionComponent implements OnInit {
   ngOnInit(): void {
   
      this.type=this.modalType=='fromTokenSelector'?"FROM":"TO"
-      this.networkLoading=true;
+      
       this.getNetworks()
   }
   getNetworks(){
@@ -62,16 +62,14 @@ export class TokenselectionComponent implements OnInit {
     })
     this.selectedNetwork=this.type=="TO"?this.helper.activeCombination.destinationNetwork:this.helper.activeCombination.sourceNetwork;
     this.allNetworks = networks;
-    this.networkSelected(this.selectedNetwork)
+    this.networkSelected(this.selectedNetwork,true)
   
 
   }
-  public async networkSelected(network: any,isFirstLoad:boolean=true) {
-    if(network?.id===this.selectedNetwork?.id)return;
+  public async networkSelected(network: any,isFirstLoad:boolean=false) {
+    if(network?.id===this.selectedNetwork?.id && !isFirstLoad)return;
     // if(this.type == "FROM" && network?.sell_enabled === 0) return;
-    setTimeout(()=>{
-      this.networkLoading = false;
-    },100);
+   
     this.loading = true;
     this.pageNum = 1;
     this.searchQueryNetwork = "";

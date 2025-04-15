@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HelperService } from './helper.service';
 import { multiplyNumbers,removeLeadingZeroesFromHex } from '../helper/math';
+import { EvmUtils } from './../helper/evm-utils';
 import * as _ from 'lodash';
 import Web3 from 'web3';
 
@@ -11,14 +12,15 @@ declare let ethereum: any;
 export class EvmService {
   provider:any
   account:any
-  activeWallet:String | undefined
+  activeWallet:string =""
   public web3: any;
   
   chainId:any;
   
 
   constructor(
-    private helper:HelperService
+    private helper:HelperService,
+    private evmUtils:EvmUtils
     
   ) { }
   public async getAccounts() {
@@ -214,6 +216,9 @@ export class EvmService {
      
       return err
     }
+  }
+  public async approveSwap(token:any,spendor:string,data:any='',fromAmount:number,preswap:boolean=false){
+    return this.evmUtils.approveSwap(token,spendor,data,this.activeWallet,this.chainId,this.web3,this.provider,fromAmount)
   }
   isNetworkSupported(nw:any){
      return nw.type.toLowerCase()==='evm'

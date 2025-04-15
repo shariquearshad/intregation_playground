@@ -30,6 +30,7 @@ export class TransactionComponent implements OnInit {
   swapApiPayload:any={}
   err=""
   memo=""
+  message="validating";
   revoveAndApproveToken:any={
     "0x1" : [
         "0xdac17f958d2ee523a2206206994597c13d831ec7"
@@ -44,6 +45,7 @@ swapApiRes:any={}
      this.initiateSwap()
   }
   async triggerApproval(fromToken:any,props:any,fromAmount:number,currentAllowance:number,preswap:boolean=false){
+    this.message="Approval in Progress please confirm"
     try{
       if(!!fromAmount){
       fromAmount+=(fromAmount/100);
@@ -70,12 +72,17 @@ swapApiRes:any={}
         const revoke = await this.helper.activeWalletService.approveSwap(fromToken,props.allowanceAddress,props.tx?.approveData, 0,preswap);
       }
       const approval = await this.helper.activeWalletService.approveSwap(fromToken,props.allowanceAddress,props.tx?.approveData,fromAmount,preswap);
+      this.message="Aalidating approval"
+      await this.checkApproval({contractAddress:this.quote.fromTokenInfo.contract_address,spendor:this.quote.allowanceAddress,activeWallet:this.helper.activeWalletService.activeWallet,tokenDecimal:this.quote.fromTokenInfo?.token_decimals,isNative:!!this.quote.fromTokenInfo?.is_native_token,sourceNetwork:this.helper.activeCombination.sourceNetwork,fromAmount:this.quote.fromAmount},true,false)
+      this.swapApiCall()
     }
     catch(e:any){
       console.log('error',e);
       if(e.code===4001) {
         // cancelled
+        
         this.err = e?.message || "";
+        this.message=this.err
        
       }
       else{
@@ -90,6 +97,7 @@ swapApiRes:any={}
     let allowed=false
 
     if(this.quote.exchangeInfo.exchange_type==='DEX' && this.quote.allowanceAddress && !['JUPITER','RANGO','THORCHAIN'].includes(this.quote.exchangeInfo.keyword) && (!this.quote.fromTokenInfo?.is_native_token || this.approvalContractAddress.includes(this.quote.fromTokenInfo?.contract_address)) && !this.excludeChainApproval.includes(this.quote.fromTokenInfo.chainId)){
+      this.message="checking for approval"
       const spendor = this.quote.allowanceAddress;
       const approvalResponse = await this.evmUtils.checkAllowance(this.quote.fromTokenInfo?.contract_address, 
       spendor,this.helper.activeWalletService.activeWallet,this.quote.fromTokenInfo?.token_decimals,
@@ -109,6 +117,7 @@ swapApiRes:any={}
      this.swapApiCall()
   }
   async swapApiCall(){
+    this.message="Swap Api Initiated"
     this.swapApiPayload={
       fee:1,
       fromTokenId:this.quote.fromTokenInfo.id,
@@ -118,6 +127,9 @@ swapApiRes:any={}
       disableEstimate:false
 
     } 
+    if(this.quote.exchangeInfo.exchange_type==='DEX'){
+      this.swapApiPayload['referrerAddress']=this.helper.activeCombination.sourceNetwork==='EVM'?this.helper.evmReffererAddress:""
+    }
         this.swapApiPayload['userAddress'] =this.quote.exchangeInfo.walletLess?undefined:this.helper.activeWalletService.activeWallet;
         this.swapApiPayload['destinationAddress'] = this.helper.recipientAddress;
         this.swapApiRes=await this.api.swap(this.swapApiPayload);
@@ -135,9 +147,14 @@ swapApiRes:any={}
         const depositAddress = this.swapApiRes.swap.depositAddress;
         const baseToken = this.swapApiRes.fromTokenInfo;
         const targetToken = this.swapApiRes.toTokenInfo;
-        let txHash=await this.helper.activeWalletService.initiateTransaction(this.swapApiPayload,this.swapApiRes,baseToken,targetToken,depositAddress).catch((err:any)=>console.log(err));
+         this.message="Confirm Transaction"
+        let txHash=await this.helper.activeWalletService.initiateTransaction(this.swapApiPayload,this.swapApiRes,baseToken,targetToken,depositAddress).catch((err:any)=>{
+          this.message=err
+        console.log(err)});
+        this.message="Status Api Initiated"
         let status=this.api.getStatus(this.swapApiRes.requestId,txHash);
         this.saveToLocal(this.swapApiRes)
+       
         this.openActiveHistory(this.swapApiRes.requestId);
 
 
@@ -191,7 +208,15 @@ swapApiRes:any={}
     }
 
   }
-  checkApproval(){
+  async checkApproval(data:any,preswap:boolean,checkzero:boolean){
+    
+        const approvalResponse = await this.evmUtils.checkAllowance(data.contractAddress, 
+          data.spendor,data.activeWallet,data.tokenDecimal,
+          data.isNative,data.sourceNetwork);
+        if (approvalResponse && Number(approvalResponse) && Number(approvalResponse) >= data.fromAmount) {
+          return true
+        }
+        else return setTimeout(()=>this.checkApproval(data,preswap,checkzero))
     
   }
 
