@@ -30,7 +30,7 @@ export class TransactionComponent implements OnInit {
   swapApiPayload:any={}
   err=""
   memo=""
-  message="validating";
+  message:any="validating";
   revoveAndApproveToken:any={
     "0x1" : [
         "0xdac17f958d2ee523a2206206994597c13d831ec7"
@@ -119,6 +119,7 @@ swapApiRes:any={}
      this.swapApiCall()
   }
   async swapApiCall(){
+    try{
     this.message="Swap Api Initiated"
     this.swapApiPayload={
       fee:1,
@@ -146,29 +147,36 @@ swapApiRes:any={}
         if(this.swapApiRes.addressMemo || this.swapApiRes.swap.tx?.memo){
           this.memo = this.swapApiRes.addressMemo || this.swapApiRes.swap.tx?.memo;
         }
+       
+        
+    }catch(err:any){
+      console.log(err)
+      this.message=err.message||""
+    }
+     
+    }
+    async initiateWalletSign(){
+      this.message="Confirm Transaction"
+      const depositAddress = this.swapApiRes.swap.depositAddress;
+      const baseToken = this.swapApiRes.fromTokenInfo;
+      const targetToken = this.swapApiRes.toTokenInfo;
+      let txHash=await this.helper.activeWalletService.initiateTransaction(this.swapApiPayload,this.swapApiRes,baseToken,targetToken,depositAddress)
+        
+      this.message="Status Api Initiated"
+      let status=this.api.getStatus(this.swapApiRes.requestId,txHash);
+      this.saveToLocal(this.swapApiRes)
+     
+      this.openActiveHistory(this.swapApiRes.requestId); 
+    }
+    getRouterAdd(){
+      if(this.swapApiRes.swap.depositAddress){
         const depositAddress = this.swapApiRes.swap.depositAddress;
-        const baseToken = this.swapApiRes.fromTokenInfo;
-        const targetToken = this.swapApiRes.toTokenInfo;
-         this.message="Confirm Transaction"
-        let txHash=await this.helper.activeWalletService.initiateTransaction(this.swapApiPayload,this.swapApiRes,baseToken,targetToken,depositAddress).catch((err:any)=>{
-          this.message=err
-        console.log(err)});
-        this.message="Status Api Initiated"
-        let status=this.api.getStatus(this.swapApiRes.requestId,txHash);
-        this.saveToLocal(this.swapApiRes)
-       
-        this.openActiveHistory(this.swapApiRes.requestId);
-
-
-        
-        
-      
-       
+        return depositAddress.slice(0,5)+"...."+depositAddress.slice(depositAddress.length - 5,depositAddress.length);
+      }
+      return "--";
     }
     async getStatus(reqId:string,txHash:string){
-    
       return await this.api.getStatus(reqId,txHash);
-        
     }
      saveToLocal(tx:any){
       let list:any=localStorage.getItem('transactions');
@@ -205,7 +213,10 @@ swapApiRes:any={}
       case 'recipientAdd':{
         await navigator.clipboard.writeText(this.recipientAddress);
         break;
-
+      }
+      case 'routerAddress':{
+      await navigator.clipboard.writeText(this.swapApiRes.swap.depositAddress||'--');
+      break;
       }
     }
 

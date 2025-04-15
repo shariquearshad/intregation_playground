@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HelperService } from './helper.service';
+import { HelperService } from '../services/helper.service';
 import { multiplyNumbers,removeLeadingZeroesFromHex } from '../helper/math';
-import { EvmUtils } from './../helper/evm-utils';
+import { EvmUtils } from '../helper/evm-utils';
 import * as _ from 'lodash';
 import Web3 from 'web3';
 
@@ -149,9 +149,6 @@ export class EvmService {
       if(!!token.swap?.tx){
         let params:any = [{
           from: this.activeWallet,
-        //   to: token?.swap?.tx?.to,
-        //  // value : _isNumber(+token?.swap?.tx?.value)?`0x${BigInt(token?.swap?.tx?.value || 0).toString(16)}`:token?.swap?.tx?.value,
-        //   data : token.swap.tx.data
         }];
         if(token.swap.tx.data){
           params[0]['data']=token.swap.tx.data;
@@ -200,9 +197,6 @@ export class EvmService {
           params[0]['gas']=`0x${(+token.swap.tx.gas).toString(16)}`;
         }
 
-
-        // params[0]['gas'] =  `0x${(+token?.swap?.tx?.gas).toString(16)}`;
-
         let transactionHash = await this.provider.request({
           method: "eth_sendTransaction",
           params: params
@@ -213,7 +207,7 @@ export class EvmService {
 
     } catch (err:any) {
      
-      return err
+      throw({message:err.message})
     }
   }
   public async approveSwap(token:any,spendor:string,data:any='',fromAmount:number){

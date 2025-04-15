@@ -39,8 +39,8 @@
         <span class="text-lg font-semibold">{{combination.destinationToken.token_symbol}}</span>
       </div>
       <div class="text-right">
-        <div class="text-xl font-bold">{{activeQuote.toAmount|number:'1.0-4'}}</div>
-        <div class="text-sm text-gray-400">{{getTokensUsdPrice('to',combination.destinationToken,activeQuote.toAmount)|number:'1.1-2'}} $</div>
+        <div class="text-xl font-bold">{{activeQuote?.toAmount|number:'1.0-4'}}</div>
+        <div class="text-sm text-gray-400">{{getTokensUsdPrice('to',combination.destinationToken,activeQuote?.toAmount||0)|number:'1.1-2'}} $</div>
       </div>
     </div>
   </div>
@@ -59,7 +59,7 @@
   </div>
 
   <!-- Price Details -->
-  <div *ngIf="!activeQuote.err" class="text-sm text-gray-300 space-y-2">
+  <div *ngIf="activeQuote && !activeQuote.err" class="text-sm text-gray-300 space-y-2">
     <div class="flex justify-between">
       <span>Min Received</span>
       <span class="text-white font-medium">{{activeQuote?.additionalInfo?.minRecieved|number:'1.2-3'}} {{!activeQuote.additionalInfo.minRecieved?'Market Price':activeQuote.toTokenInfo.token_symbol}}</span>

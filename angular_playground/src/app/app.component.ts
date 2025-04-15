@@ -52,14 +52,7 @@ export class AppComponent implements OnInit  {
   ngOnInit() {
 
    
-    this.helper.currentCombination.subscribe(async (val:any)=>{
-      console.log("sub",val)
-      if(!_.isEmpty(val)){
-        this.combination=val;
-        await this.getQuotation()
-      }
-      
-    })
+    
     this.helper.currentActiveHistoryReqId.subscribe(async(val:any)=>{
       if(!_.isEmpty(val)){
        setTimeout(()=>this.openModal('activeHistory'),100)
@@ -86,20 +79,15 @@ export class AppComponent implements OnInit  {
     promises.push(this.api.getConfigs(),this.api.getPaginatedCoins('0x38',1,100))
     const [configs, coins]=await Promise.all(promises)
     this.helper.allConfig=configs;
-    this.combination=this.helper.setDefaultCoin(coins);
+    this.helper.setDefaultCoin(coins);
+    
     console.log(this.combination);
-    await this.getQuotation();
+    
     this.loading=false;
     console.log(configs);
     console.log(coins);
   }
-  public async getQuotation() {
-    const{sourceNetwork,destinationNetwork,sourceToken,destinationToken,amount}=this.combination
-    this.quotation=await this.api.getQuotes(sourceToken,sourceNetwork,destinationToken,destinationNetwork,amount)
-    console.log(this.quotation)
-    this.activequotation=this.quotation.quotes[0];
-    return this.quotation;
-  }
+
 }
 
 

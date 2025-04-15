@@ -3,7 +3,7 @@ import { HelperService } from '../../services/helper.service';
 import { CommonModule } from '@angular/common';
 import { FilterPipe } from '../../helper/filter.pipe';
 import { FormsModule } from '@angular/forms';
-import { EvmService } from '../../services/evm.service';
+import { EvmService } from '../../networks/evm.service';
 
 @Component({
   selector: 'app-walletselect',

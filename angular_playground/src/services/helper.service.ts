@@ -35,6 +35,8 @@ export class HelperService {
    currentWalletAddress= this.updateWalletAddress.asObservable();
   public activeHistoryReqId=new BehaviorSubject("");
    currentActiveHistoryReqId=this.activeHistoryReqId.asObservable();
+   public activeQuotation=new BehaviorSubject("");
+   currentActiveQuotation=this.activeQuotation.asObservable();
 
   
 
@@ -56,7 +58,7 @@ export class HelperService {
       amount:100
     }
     this.activeCombination=combination
-   return combination;
+    this.selectCombination.next(combination);
   }
   async getChainId(){
     let chainId=await this.activeWalletService.getChainId();

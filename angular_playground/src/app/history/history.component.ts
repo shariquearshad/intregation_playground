@@ -57,8 +57,6 @@ export class HistoryComponent implements OnInit {
   }
   gettxStatus(){
     this.status.status;
-   
-
   }
 
 }

@@ -32,16 +32,22 @@ export class SwapSectionComponent  implements OnInit,OnChanges{
     this.cd.detectChanges()
     this.getButtonName()
   }
-  @Input() combination:any
+   combination:any
   @Output() updateCombination=new EventEmitter<any>()
   @Output() openTokenSelector=new EventEmitter<any>()
-  @Input() activeQuote:any
+  activeQuote:any
  ngOnInit(): void {
      console.log(this.combination)
+     this.combination=this.helper.activeCombination;
      this.helper.currentChainId.subscribe((val:any)=>{
       this.getButtonName()
      })
-     this.getButtonName()
+     this.helper.activeQuotation.subscribe((val:any)=>this.activeQuote=val)
+     this.helper.currentCombination.subscribe(async (val:any)=>{
+      this.combination=val;
+      this.getButtonName()
+    })
+    
 
  }
  updateRecipientAddress(event:any){
@@ -91,7 +97,7 @@ export class SwapSectionComponent  implements OnInit,OnChanges{
   }
   getButtonName(){
     let name=""
-    if(this.activeQuote.exchangeInfo.walletLess){
+    if(this.activeQuote?.exchangeInfo?.walletLess){
       name='Swap'
     }
     else if(!_.isEmpty(this.helper.activeWalletService) && this.helper.activeWalletService.isNetworkSupported(this.combination.sourceNetwork) ){
